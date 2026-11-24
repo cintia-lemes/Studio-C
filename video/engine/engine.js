@@ -240,6 +240,68 @@
     stroke(ctx, [[x - 125 * s, y + 85 * s], [x + 125 * s, y + 85 * s]], { width: 8 * s, alpha: a });
   };
 
+  // pote de vidro: o.level (0..1) = nível do líquido; o.t = tempo p/ ondinha
+  function jarPath(c, x, y, s) {
+    const w = 230 * s, h = 300 * s, top = y - h / 2;
+    c.beginPath();
+    c.moveTo(x - 80 * s, top); c.lineTo(x - 80 * s, top + 40 * s);
+    c.quadraticCurveTo(x - w / 2, top + 55 * s, x - w / 2, top + 110 * s);
+    c.lineTo(x - w / 2, y + h / 2 - 30 * s); c.quadraticCurveTo(x - w / 2, y + h / 2, x - w / 2 + 30 * s, y + h / 2);
+    c.lineTo(x + w / 2 - 30 * s, y + h / 2); c.quadraticCurveTo(x + w / 2, y + h / 2, x + w / 2, y + h / 2 - 30 * s);
+    c.lineTo(x + w / 2, top + 110 * s); c.quadraticCurveTo(x + w / 2, top + 55 * s, x + 80 * s, top + 40 * s);
+    c.lineTo(x + 80 * s, top);
+  }
+  icons.jar = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1, h = 300 * s, lv = clamp(o.level ?? 0);
+    if (lv > 0) {
+      ctx.save(); jarPath(ctx, x, y, s); ctx.closePath(); ctx.clip();
+      const ly = y + h / 2 - lv * (h - 60 * s), t = o.t || 0;
+      withAlpha(ctx, a * 0.32, () => {
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(x - 200 * s, ly);
+        for (let i = 0; i <= 20; i++) ctx.lineTo(x - 200 * s + i * 20 * s, ly + 6 * s * Math.sin(t * 3 + i * 0.9));
+        ctx.lineTo(x + 200 * s, y + h); ctx.lineTo(x - 200 * s, y + h); ctx.fill();
+      });
+      stroke(ctx, curve(u => [x - 120 * s + u * 240 * s, ly + 6 * s * Math.sin(t * 3 + u * 18)], 30), { width: 4 * s, alpha: a * 0.9, glowK: 0.6 });
+      ctx.restore();
+    }
+    shape(ctx, c => jarPath(c, x, y, s), { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 95 * s, y - h / 2], [x + 95 * s, y - h / 2]], { width: 9 * s, alpha: a });
+    text(ctx, '$', x, y + 40 * s, { size: 90 * s, alpha: a * 0.5, glowK: 0.3 });
+  };
+  icons.drop = function (ctx, x, y, s = 1, o = {}) { // gota (y = centro da parte redonda)
+    const r = 16 * s;
+    shape(ctx, c => { c.beginPath(); c.moveTo(x, y - r * 2.4); c.quadraticCurveTo(x + r * 1.1, y - r * 0.9, x + r, y); c.arc(x, y, r, 0, Math.PI); c.quadraticCurveTo(x - r * 1.1, y - r * 0.9, x, y - r * 2.4); }, { fill: true, alpha: o.alpha ?? 1, glowK: 0.8 });
+  };
+  icons.bag = function (ctx, x, y, s = 1, o = {}) { // sacola de delivery
+    const a = o.alpha ?? 1;
+    shape(ctx, c => rrect(c, x - 100 * s, y - 70 * s, 200 * s, 170 * s, 16 * s), { width: 7 * s, alpha: a });
+    stroke(ctx, arcPts(x, y - 70 * s, 50 * s, Math.PI, Math.PI * 2, 30), { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 100 * s, y - 20 * s], [x + 100 * s, y - 20 * s]], { width: 5 * s, alpha: a * 0.6, glowK: 0.3 });
+  };
+  icons.cup = function (ctx, x, y, s = 1, o = {}) { // xícara de café
+    const a = o.alpha ?? 1;
+    stroke(ctx, [[x - 90 * s, y - 50 * s], [x - 75 * s, y + 60 * s], [x + 55 * s, y + 60 * s], [x + 70 * s, y - 50 * s], [x - 90 * s, y - 50 * s]], { width: 7 * s, alpha: a });
+    stroke(ctx, arcPts(x + 75 * s, y, 32 * s, -Math.PI / 2, Math.PI / 2, 24), { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 120 * s, y + 90 * s], [x + 100 * s, y + 90 * s]], { width: 7 * s, alpha: a });
+    for (const dx of [-40, 0, 40]) stroke(ctx, curve(u => [x + dx * s + 10 * s * Math.sin(u * 6 + (o.t || 0) * 4), y - 70 * s - u * 70 * s], 20), { width: 5 * s, alpha: a * 0.6, glowK: 0.4 });
+  };
+  icons.magnifier = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1, r = 80 * s;
+    shape(ctx, c => { c.beginPath(); c.arc(x, y, r, 0, 7); }, { width: 8 * s, alpha: a });
+    stroke(ctx, [[x + r * 0.72, y + r * 0.72], [x + r * 1.6, y + r * 1.6]], { width: 16 * s, alpha: a });
+  };
+  icons.drain = function (ctx, x, y, s = 1, o = {}) { // ralo
+    const a = o.alpha ?? 1, r = 110 * s;
+    shape(ctx, c => { c.beginPath(); c.ellipse(x, y, r, r * 0.38, 0, 0, 7); }, { width: 7 * s, alpha: a });
+    shape(ctx, c => { c.beginPath(); c.ellipse(x, y, r * 0.7, r * 0.26, 0, 0, 7); }, { width: 4 * s, alpha: a * 0.6, glowK: 0.4 });
+    for (const dx of [-0.4, -0.13, 0.13, 0.4]) stroke(ctx, [[x + dx * r, y - r * 0.24], [x + dx * r, y + r * 0.24]], { width: 4 * s, alpha: a * 0.6, glowK: 0.3 });
+  };
+  icons.playTile = function (ctx, x, y, s = 1, o = {}) { // app de streaming
+    const a = o.alpha ?? 1;
+    shape(ctx, c => rrect(c, x - 80 * s, y - 80 * s, 160 * s, 160 * s, 32 * s), { width: 6 * s, alpha: a });
+    shape(ctx, c => { c.beginPath(); c.moveTo(x - 22 * s, y - 34 * s); c.lineTo(x + 36 * s, y); c.lineTo(x - 22 * s, y + 34 * s); c.closePath(); }, { width: 6 * s, alpha: a });
+  };
+
   // CTA final padrão: celular com perfil + botão SEGUIR tocado (frase bi)
   function cta(ctx, T, bi) {
     const p = T.lin(bi, 0.5);
