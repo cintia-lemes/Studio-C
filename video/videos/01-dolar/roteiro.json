@@ -1,0 +1,33 @@
+{
+  "titulo": "O dólar subiu: trabalhador x influenciador",
+  "voz": { "provedor": "ElevenLabs", "voice_id": "pEyC748s9iJAXTk3NWuL", "nome": "Cortez - Calmo & Grave", "modelo": "eleven_v4" },
+  "aviso": "CONTEÚDO EDUCATIVO · NÃO É RECOMENDAÇÃO DE INVESTIMENTO",
+  "beats": [
+    { "fala": "O dólar subiu.", "titulo": "O DÓLAR SUBIU" },
+    { "fala": "E dois brasileiros acordaram em mundos diferentes.", "titulo": "E DOIS BRASILEIROS", "sub": "ACORDARAM EM MUNDOS DIFERENTES" },
+    { "fala": "De um lado, o trabalhador comum.", "titulo": "DE UM LADO, O TRABALHADOR" },
+    { "fala": "Ganha 3 mil reais por mês.", "titulo": "GANHA R$ 3.000 POR MÊS" },
+    { "fala": "Do outro, um influenciador que recebe mil dólares de uma marca gringa.", "titulo": "DO OUTRO, O INFLUENCIADOR", "sub": "RECEBE US$ 1.000 DE UMA MARCA GRINGA" },
+    { "fala": "Imagina que o dólar sai de 5 para 6 reais.", "titulo": "O DÓLAR VAI DE R$ 5 PARA R$ 6" },
+    { "fala": "Os mil dólares do influenciador viram 6 mil reais.", "titulo": "US$ 1.000 VIRAM R$ 6.000" },
+    { "fala": "Ele não fez nada diferente.", "titulo": "ELE NÃO FEZ NADA DIFERENTE" },
+    { "fala": "E ganhou um aumento de 20%.", "titulo": "E GANHOU 20% DE AUMENTO" },
+    { "fala": "Já o trabalhador continua recebendo os mesmos 3 mil.", "titulo": "O TRABALHADOR CONTINUA", "sub": "COM OS MESMOS R$ 3.000" },
+    { "fala": "Mas o celular ficou mais caro.", "titulo": "MAS O CELULAR FICOU MAIS CARO" },
+    { "fala": "A gasolina subiu.", "titulo": "A GASOLINA SUBIU" },
+    { "fala": "Até o pão, que depende de trigo importado.", "titulo": "ATÉ O PÃO", "sub": "QUE DEPENDE DE TRIGO IMPORTADO" },
+    { "fala": "O salário é o mesmo.", "titulo": "O SALÁRIO É O MESMO" },
+    { "fala": "O carrinho do mercado, não.", "titulo": "O CARRINHO DO MERCADO, NÃO" },
+    { "fala": "E o mais cruel...", "titulo": "E O MAIS CRUEL" },
+    { "fala": "o mesmo dólar que empobrece um, enriquece o outro.", "titulo": "O MESMO DÓLAR", "sub": "QUE EMPOBRECE UM, ENRIQUECE O OUTRO" },
+    { "fala": "Em dólar, o salário dele caiu de 600 para 500.", "titulo": "EM DÓLAR, O SALÁRIO CAIU", "sub": "DE US$ 600 PARA US$ 500" },
+    { "fala": "Ninguém mandou ele embora.", "titulo": "NINGUÉM MANDOU ELE EMBORA" },
+    { "fala": "Mas ele ficou mais pobre.", "titulo": "MAS ELE FICOU MAIS POBRE" },
+    { "fala": "Você não controla o dólar.", "titulo": "VOCÊ NÃO CONTROLA O DÓLAR" },
+    { "fala": "Mas pode escolher de que lado da balança você fica.", "titulo": "MAS ESCOLHE", "sub": "DE QUE LADO DA BALANÇA VOCÊ FICA" },
+    { "fala": "Guardar uma parte em ativos dolarizados não é luxo.", "titulo": "GUARDAR UMA PARTE EM DÓLAR", "sub": "NÃO É LUXO" },
+    { "fala": "É proteção.", "titulo": "É PROTEÇÃO" },
+    { "fala": "E aprender uma habilidade que o mundo paga em dólar pode mudar o seu jogo.", "titulo": "APRENDA UMA HABILIDADE", "sub": "QUE O MUNDO PAGA EM DÓLAR" },
+    { "fala": "Siga o perfil para mais conteúdos como este.", "titulo": "SIGA O PERFIL", "sub": "PARA MAIS CONTEÚDOS ASSIM" }
+  ]
+}
