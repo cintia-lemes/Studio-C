@@ -302,6 +302,31 @@
     shape(ctx, c => { c.beginPath(); c.moveTo(x - 22 * s, y - 34 * s); c.lineTo(x + 36 * s, y); c.lineTo(x - 22 * s, y + 34 * s); c.closePath(); }, { width: 6 * s, alpha: a });
   };
 
+  icons.house = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1;
+    stroke(ctx, [[x - 110 * s, y - 10 * s], [x, y - 100 * s], [x + 110 * s, y - 10 * s]], { width: 8 * s, alpha: a });
+    stroke(ctx, [[x - 80 * s, y - 30 * s], [x - 80 * s, y + 90 * s], [x + 80 * s, y + 90 * s], [x + 80 * s, y - 30 * s]], { width: 7 * s, alpha: a });
+    shape(ctx, c => rrect(c, x - 22 * s, y + 25 * s, 44 * s, 65 * s, [10 * s, 10 * s, 0, 0]), { width: 6 * s, alpha: a });
+  };
+  icons.map = function (ctx, x, y, s = 1, o = {}) { // mapa dobrado com caminho
+    const a = o.alpha ?? 1, w = 120 * s, h = 150 * s;
+    const pts = [[x - 1.5 * w, y - h + 20 * s], [x - 0.5 * w, y - h], [x + 0.5 * w, y - h + 20 * s], [x + 1.5 * w, y - h], [x + 1.5 * w, y + h - 20 * s], [x + 0.5 * w, y + h], [x - 0.5 * w, y + h - 20 * s], [x - 1.5 * w, y + h], [x - 1.5 * w, y - h + 20 * s]];
+    stroke(ctx, pts, { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 0.5 * w, y - h], [x - 0.5 * w, y + h - 20 * s]], { width: 4 * s, alpha: a * 0.5, glowK: 0.2 });
+    stroke(ctx, [[x + 0.5 * w, y - h + 20 * s], [x + 0.5 * w, y + h]], { width: 4 * s, alpha: a * 0.5, glowK: 0.2 });
+    const path = curve(u => [x - 1.2 * w + u * 2.3 * w, y + 80 * s * Math.sin(u * 5.5) - 30 * s * u], 60);
+    stroke(ctx, path, { width: 5 * s, dash: [14 * s, 12 * s], p: o.p ?? 1, alpha: a, glowK: 0.5 });
+    if ((o.p ?? 1) > 0.95) { const e = path[path.length - 1]; xmarkSmall(ctx, e[0], e[1] - 10 * s, 18 * s, a); }
+  };
+  function xmarkSmall(ctx, x, y, r, a) { stroke(ctx, [[x - r, y - r], [x + r, y + r]], { width: 7, alpha: a }); stroke(ctx, [[x + r, y - r], [x - r, y + r]], { width: 7, alpha: a }); }
+  icons.calendar = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1;
+    shape(ctx, c => rrect(c, x - 120 * s, y - 100 * s, 240 * s, 220 * s, 22 * s), { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 120 * s, y - 40 * s], [x + 120 * s, y - 40 * s]], { width: 6 * s, alpha: a });
+    for (const dx of [-60, 60]) stroke(ctx, [[x + dx * s, y - 125 * s], [x + dx * s, y - 80 * s]], { width: 9 * s, alpha: a });
+    text(ctx, o.label || '1', x, y + 45 * s, { size: 100 * s, alpha: a, glowK: 0.8 });
+  };
+
   // CTA final padrão: celular com perfil + botão SEGUIR tocado (frase bi)
   function cta(ctx, T, bi) {
     const p = T.lin(bi, 0.5);
