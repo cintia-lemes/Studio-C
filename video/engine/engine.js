@@ -327,6 +327,51 @@
     text(ctx, o.label || '1', x, y + 45 * s, { size: 100 * s, alpha: a, glowK: 0.8 });
   };
 
+  icons.car = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1;
+    stroke(ctx, [[x - 160 * s, y + 30 * s], [x - 160 * s, y - 15 * s], [x - 110 * s, y - 30 * s], [x - 60 * s, y - 85 * s], [x + 60 * s, y - 85 * s], [x + 110 * s, y - 30 * s], [x + 160 * s, y - 15 * s], [x + 160 * s, y + 30 * s], [x + 115 * s, y + 30 * s]], { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 50 * s, y + 30 * s], [x + 45 * s, y + 30 * s]], { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 115 * s, y + 30 * s], [x - 160 * s, y + 30 * s]], { width: 7 * s, alpha: a });
+    for (const dx of [-82, 80]) shape(ctx, c => { c.beginPath(); c.arc(x + dx * s, y + 32 * s, 32 * s, 0, 7); }, { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 95 * s, y - 32 * s], [x - 50 * s, y - 72 * s], [x + 50 * s, y - 72 * s], [x + 95 * s, y - 32 * s], [x - 95 * s, y - 32 * s]], { width: 4 * s, alpha: a * 0.6, glowK: 0.3 });
+  };
+  icons.plane = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1;
+    stroke(ctx, [[x - 150 * s, y], [x + 130 * s, y - 10 * s], [x + 160 * s, y], [x + 130 * s, y + 10 * s], [x - 150 * s, y]], { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 10 * s, y - 4 * s], [x - 70 * s, y - 100 * s], [x - 30 * s, y - 100 * s], [x + 50 * s, y - 6 * s]], { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 10 * s, y + 4 * s], [x - 70 * s, y + 100 * s], [x - 30 * s, y + 100 * s], [x + 50 * s, y + 6 * s]], { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - 130 * s, y - 2 * s], [x - 160 * s, y - 55 * s], [x - 135 * s, y - 55 * s], [x - 100 * s, y - 4 * s]], { width: 6 * s, alpha: a });
+  };
+  icons.gift = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1;
+    shape(ctx, c => rrect(c, x - 100 * s, y - 30 * s, 200 * s, 140 * s, 10 * s), { width: 7 * s, alpha: a });
+    shape(ctx, c => rrect(c, x - 115 * s, y - 75 * s, 230 * s, 48 * s, 10 * s), { width: 7 * s, alpha: a });
+    stroke(ctx, [[x, y - 75 * s], [x, y + 110 * s]], { width: 7 * s, alpha: a });
+    stroke(ctx, curve(u => [x - 70 * s * Math.sin(Math.PI * u), y - 75 * s - 55 * s * Math.sin(Math.PI * u) * (1 - u * 0.3)], 20), { width: 6 * s, alpha: a });
+    stroke(ctx, curve(u => [x + 70 * s * Math.sin(Math.PI * u), y - 75 * s - 55 * s * Math.sin(Math.PI * u) * (1 - u * 0.3)], 20), { width: 6 * s, alpha: a });
+  };
+  icons.bell = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1;
+    stroke(ctx, [[x - 90 * s, y + 60 * s], [x - 65 * s, y + 25 * s], [x - 65 * s, y - 30 * s], ...arcPts(x, y - 30 * s, 65 * s, Math.PI, Math.PI * 2, 20), [x + 65 * s, y + 25 * s], [x + 90 * s, y + 60 * s], [x - 90 * s, y + 60 * s]], { width: 7 * s, alpha: a });
+    stroke(ctx, arcPts(x, y + 72 * s, 22 * s, 0, Math.PI, 12), { width: 7 * s, alpha: a });
+  };
+  // confete / chuva de notas — partículas determinísticas pelo tempo
+  function confetti(ctx, t, o = {}) {
+    const { n = 40, alpha = 1, x0 = 0, x1 = 1080, y0 = 400, fall = 1400, speed = 0.35, notes = false } = o;
+    for (let i = 0; i < n; i++) {
+      const r1 = Math.sin(i * 12.9898) * 43758.5453 % 1, r2 = Math.sin(i * 78.233) * 12345.678 % 1;
+      const ph = ((t * speed * (0.6 + Math.abs(r2) * 0.8) + Math.abs(r1)) % 1);
+      const x = x0 + (x1 - x0) * Math.abs(r2) + 40 * Math.sin(t * 2 + i);
+      const y = y0 + ph * fall, rot = t * 3 * (r1 > 0 ? 1 : -1) + i;
+      withAlpha(ctx, alpha * Math.min(1, (1 - ph) * 4), () => {
+        ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+        if (notes) { shape(ctx, c => rrect(c, -34, -18, 68, 36, 5), { width: 3, glowK: 0.5 }); text(ctx, '$', 0, 2, { size: 22, glowK: 0 }); }
+        else shape(ctx, c => rrect(c, -9, -4, 18, 8, 2), { fill: true, glowK: 0.6, alpha: 0.5 + 0.5 * Math.abs(r1) });
+        ctx.restore();
+      });
+    }
+  }
+
   // CTA final padrão: celular com perfil + botão SEGUIR tocado (frase bi)
   function cta(ctx, T, bi) {
     const p = T.lin(bi, 0.5);
@@ -456,7 +501,7 @@
     if (VID.overlay) VID.overlay(ctx, T);
   }
 
-  window.NEON = { W, H, clamp, lerp, easeOut, easeInOut, easeBack, glow, text, typed, stroke, curve, arcPts, rrect, shape, person, pill, ground, arrow, xmark, check, icons, icon, money, withAlpha, cta, finger, popTransform, partial };
+  window.NEON = { W, H, clamp, lerp, easeOut, easeInOut, easeBack, glow, text, typed, stroke, curve, arcPts, rrect, shape, person, pill, ground, arrow, xmark, check, icons, icon, money, withAlpha, cta, finger, confetti, popTransform, partial };
   window.setupVideo = (vid, tim) => { VID = vid; TIM = tim; };
   window.renderFrame = renderFrame;
 })();
