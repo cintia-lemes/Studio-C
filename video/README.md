@@ -11,7 +11,7 @@ gerados 100% por código: roteiro → narração com IA (ElevenLabs) → animaç
 
 ## Como fazer um vídeo novo
 1. Copie `videos/01-dolar` para `videos/02-<tema>` e escreva o `roteiro.json` (1 frase curta por beat, com `titulo`/`sub`).
-2. Gere a narração (mesmas frases, separadas por `[pause]`) e salve como `narracao.mp3`.
+2. Gere a narração (mesmas frases, separadas por `[pause]`) e salve como `narracao.mp3`. Transcreva-a (ElevenLabs Scribe) e salve os tempos por palavra como `palavras.json` — o alinhamento fica exato. Sem esse arquivo, o script usa as pausas do áudio.
 3. `node video/engine/timings.cjs video/videos/02-<tema>` — confere se cada frase caiu no tempo certo.
 4. Escreva as cenas em `scenes.js` (cada grupo desenha um conjunto de frases).
 5. Pré-visualizar quadros: `node video/engine/render.cjs video/videos/02-<tema> --stills 1,5,10`

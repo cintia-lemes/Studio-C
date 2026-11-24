@@ -1,0 +1,31 @@
+{
+  "titulo": "Cartão de crédito: a armadilha do mínimo da fatura",
+  "voz": { "provedor": "ElevenLabs", "voice_id": "pEyC748s9iJAXTk3NWuL", "nome": "Cortez - Calmo & Grave", "modelo": "eleven_v4" },
+  "aviso": "CONTEÚDO EDUCATIVO · VALORES ILUSTRATIVOS",
+  "beats": [
+    { "fala": "A fatura chegou: 2 mil reais.", "titulo": "A FATURA CHEGOU" },
+    { "fala": "E lá embaixo, um botão tentador.", "titulo": "E LÁ EMBAIXO", "sub": "UM BOTÃO TENTADOR" },
+    { "fala": "Pagar o mínimo: só 300 reais.", "titulo": "PAGAR O MÍNIMO", "sub": "SÓ R$ 300" },
+    { "fala": "Parece alívio.", "titulo": "PARECE ALÍVIO" },
+    { "fala": "Mas os outros 1.700 não somem.", "titulo": "MAS OS OUTROS R$ 1.700", "sub": "NÃO SOMEM" },
+    { "fala": "Eles entram no rotativo.", "titulo": "ELES ENTRAM NO ROTATIVO" },
+    { "fala": "Um dos juros mais caros do Brasil.", "titulo": "UM DOS JUROS MAIS CAROS", "sub": "DO BRASIL" },
+    { "fala": "Imagina 12% ao mês.", "titulo": "IMAGINE 12% AO MÊS" },
+    { "fala": "No mês seguinte, você deve 1.904 reais.", "titulo": "NO MÊS SEGUINTE", "sub": "VOCÊ DEVE R$ 1.904" },
+    { "fala": "Você pagou 300...", "titulo": "VOCÊ PAGOU R$ 300" },
+    { "fala": "e a dívida caiu só 96.", "titulo": "E A DÍVIDA CAIU SÓ R$ 96" },
+    { "fala": "O resto foi pro banco.", "titulo": "O RESTO FOI PRO BANCO" },
+    { "fala": "E o mais perigoso...", "titulo": "E O MAIS PERIGOSO" },
+    { "fala": "é que o limite continua lá.", "titulo": "O LIMITE CONTINUA LÁ" },
+    { "fala": "Você segue comprando...", "titulo": "VOCÊ SEGUE COMPRANDO" },
+    { "fala": "e a bola de neve cresce.", "titulo": "E A BOLA DE NEVE CRESCE" },
+    { "fala": "Por lei, os juros não podem passar do valor da dívida.", "titulo": "POR LEI, OS JUROS TÊM TETO", "sub": "NÃO PASSAM DO VALOR DA DÍVIDA" },
+    { "fala": "Ou seja: ela pode dobrar.", "titulo": "OU SEJA: ELA PODE DOBRAR" },
+    { "fala": "O mínimo não é solução.", "titulo": "O MÍNIMO NÃO É SOLUÇÃO" },
+    { "fala": "É um empréstimo caro, disfarçado de alívio.", "titulo": "É UM EMPRÉSTIMO CARO", "sub": "DISFARÇADO DE ALÍVIO" },
+    { "fala": "Se não der pra pagar tudo...", "titulo": "SE NÃO DER PRA PAGAR TUDO" },
+    { "fala": "compare o parcelamento da fatura com um empréstimo mais barato.", "titulo": "COMPARE AS TAXAS", "sub": "PARCELAMENTO X EMPRÉSTIMO MAIS BARATO" },
+    { "fala": "E tire o cartão da rotina até zerar.", "titulo": "TIRE O CARTÃO DA ROTINA", "sub": "ATÉ ZERAR A DÍVIDA" },
+    { "fala": "Siga o perfil para mais conteúdos como este.", "titulo": "SIGA O PERFIL", "sub": "PARA MAIS CONTEÚDOS ASSIM" }
+  ]
+}

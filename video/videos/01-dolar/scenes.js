@@ -242,7 +242,7 @@ window.buildVideo = function (roteiro) {
         stroke(ctx, [[x - 120, y - 40], [x + 120, y - 40]], { width: 14, alpha: 0.8 });
         stroke(ctx, [[x - 80, y + 5], [x + 80, y + 5]], { width: 10, alpha: 0.4, glowK: 0 });
         for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++)
-          shape(ctx, c => rrect(c, x - 190 + i * 130, y + 200 + j * 140, 115, 125, 12), { width: 3, alpha: 0.35, glowK: 0 });
+          shape(ctx, c => rrect(c, x - 190 + i * 130, y + 165 + j * 120, 115, 105, 12), { width: 3, alpha: 0.35, glowK: 0 });
       });
       // botão seguir → seguindo
       const tap = T.lin(25, 0.15, 1.3), done = tap >= 1;

@@ -226,6 +226,58 @@
       stroke(ctx, curve(t => [x + r * 0.87 * Math.cos(Math.PI * (1 + t)), y + r * 0.5 + 10 * s * Math.sin(Math.PI * t)]), { width: 4 * s, alpha: a * 0.6, glowK: 0.4 });
     },
   };
+  icons.card = function (ctx, x, y, s = 1, o = {}) { // cartão de crédito
+    const a = o.alpha ?? 1, w = 300 * s, h = 190 * s;
+    shape(ctx, c => rrect(c, x - w / 2, y - h / 2, w, h, 22 * s), { width: 7 * s, alpha: a });
+    stroke(ctx, [[x - w / 2, y - h / 2 + 50 * s], [x + w / 2, y - h / 2 + 50 * s]], { width: 14 * s, alpha: a * 0.8, glowK: 0.5 });
+    shape(ctx, c => rrect(c, x - w / 2 + 30 * s, y - 5 * s, 50 * s, 38 * s, 6 * s), { width: 4 * s, alpha: a });
+    stroke(ctx, [[x - w / 2 + 30 * s, y + 60 * s], [x + 20 * s, y + 60 * s]], { width: 6 * s, alpha: a * 0.6, glowK: 0.3 });
+  };
+  icons.bank = function (ctx, x, y, s = 1, o = {}) {
+    const a = o.alpha ?? 1;
+    stroke(ctx, [[x - 120 * s, y - 50 * s], [x, y - 120 * s], [x + 120 * s, y - 50 * s], [x - 120 * s, y - 50 * s]], { width: 7 * s, alpha: a });
+    for (const dx of [-80, -27, 27, 80]) stroke(ctx, [[x + dx * s, y - 30 * s], [x + dx * s, y + 60 * s]], { width: 8 * s, alpha: a });
+    stroke(ctx, [[x - 125 * s, y + 85 * s], [x + 125 * s, y + 85 * s]], { width: 8 * s, alpha: a });
+  };
+
+  // CTA final padrão: celular com perfil + botão SEGUIR tocado (frase bi)
+  function cta(ctx, T, bi) {
+    const p = T.lin(bi, 0.5);
+    const x = 540, y = 1020, w = 470, h = 820;
+    withAlpha(ctx, p, () => {
+      shape(ctx, c => rrect(c, x - w / 2, y - h / 2, w, h, 56), { width: 7 });
+      stroke(ctx, [[x - 40, y - h / 2 + 34], [x + 40, y - h / 2 + 34]], { width: 6 });
+      shape(ctx, c => { c.beginPath(); c.arc(x, y - 190, 95, 0, 7); }, { width: 6 });
+      ctx.save(); ctx.beginPath(); ctx.arc(x, y - 190, 92, 0, 7); ctx.clip();
+      person(ctx, x, y - 95, { s: 0.85 });
+      ctx.restore();
+      stroke(ctx, [[x - 120, y - 40], [x + 120, y - 40]], { width: 14, alpha: 0.8 });
+      stroke(ctx, [[x - 80, y + 5], [x + 80, y + 5]], { width: 10, alpha: 0.4, glowK: 0 });
+      for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++)
+        shape(ctx, c => rrect(c, x - 190 + i * 130, y + 165 + j * 120, 115, 105, 12), { width: 3, alpha: 0.35, glowK: 0 });
+    });
+    const tap = T.lin(bi, 0.15, 1.3), done = tap >= 1;
+    const bs = 1 - 0.08 * Math.sin(Math.PI * tap);
+    ctx.save(); popTransform(ctx, x, y + 95, bs * lerp(0.5, 1, easeBack(T.lin(bi, 0.4, 0.4))));
+    withAlpha(ctx, T.ap(bi, 0.3, 0.4), () => {
+      shape(ctx, c => rrect(c, x - 150, y + 60, 300, 72, 36), { fill: !done, width: 5, glowK: 1.2 });
+      ctx.font = '900 32px Inter'; ctx.letterSpacing = '4px'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = done ? '#fff' : '#000';
+      ctx.fillText(done ? 'SEGUINDO ✓' : 'SEGUIR', x, y + 98);
+    });
+    ctx.restore();
+    finger(ctx, T, bi, x + 330, y + 400, x + 40, y + 120, 0.6, 1.3);
+  }
+  // dedo que desliza até (x1,y1) e toca no instante tapAt (s após o início da frase)
+  function finger(ctx, T, bi, x0, y0, x1, y1, delay, tapAt) {
+    const fp = T.io(bi, tapAt - delay, delay), fx = lerp(x0, x1, fp), fy = lerp(y0, y1, fp);
+    const tap = T.lin(bi, 0.3, tapAt);
+    withAlpha(ctx, T.ap(bi, 0.3, delay) * (1 - T.ap(bi, 0.4, tapAt + 0.5)), () => {
+      shape(ctx, c => { c.beginPath(); c.arc(fx, fy, 30, 0, 7); }, { width: 5 });
+      if (tap > 0 && tap < 1) shape(ctx, c => { c.beginPath(); c.arc(fx, fy, 30 + 60 * tap, 0, 7); }, { width: 3, alpha: 1 - tap });
+    });
+  }
+
   function icon(ctx, name, x, y, s, p, o = {}) { // ícone com "pop"
     if (p <= 0) return;
     ctx.save(); popTransform(ctx, x, y, lerp(0.5, 1, easeBack(p)));
@@ -317,7 +369,7 @@
     if (VID.overlay) VID.overlay(ctx, T);
   }
 
-  window.NEON = { W, H, clamp, lerp, easeOut, easeInOut, easeBack, glow, text, typed, stroke, curve, arcPts, rrect, shape, person, pill, ground, arrow, xmark, check, icons, icon, money, withAlpha, popTransform, partial };
+  window.NEON = { W, H, clamp, lerp, easeOut, easeInOut, easeBack, glow, text, typed, stroke, curve, arcPts, rrect, shape, person, pill, ground, arrow, xmark, check, icons, icon, money, withAlpha, cta, finger, popTransform, partial };
   window.setupVideo = (vid, tim) => { VID = vid; TIM = tim; };
   window.renderFrame = renderFrame;
 })();
