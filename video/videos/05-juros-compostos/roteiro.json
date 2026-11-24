@@ -1,0 +1,174 @@
+{
+  "titulo": "Juros compostos x juros compostos ao contrário",
+  "voz": {
+    "provedor": "ElevenLabs",
+    "voice_id": "oi8rgjIfLgJRsQ6rbZh3",
+    "nome": "Amanda Kelly",
+    "modelo": "eleven_v4",
+    "direcao": "[softly] [warmly]"
+  },
+  "aviso": "EDUCATIVO · VALORES ILUSTRATIVOS · SEM INFLAÇÃO E IMPOSTOS",
+  "fala_completa": "[softly] [warmly] Os juros compostos podem trabalhar pra você... [pause] ou contra você. [pause] É a mesma matemática, dos dois lados. [pause] Funciona assim: juros sobre juros. [pause] O que rende hoje passa a render amanhã. [pause] Como uma bola de neve, só que do lado bom. [pause] Imagine guardar 200 reais por mês. [pause] Rendendo 1% ao mês, como exemplo. [pause] Em 10 anos, você colocou 24 mil. [pause] Mas tem 46 mil. [pause] Os juros fizeram quase metade do trabalho. [pause] E em 20 anos? [pause] Você colocou 48 mil... [pause] e tem quase 200 mil. [pause] O tempo é o ingrediente secreto. [pause] [serious] Agora, o lado escuro. [pause] Os juros compostos ao contrário. [pause] Um celular de 2 mil reais, em 24 parcelas, com juros de 4% ao mês. [pause] Vira mais de 3.100 reais. [pause] Você pagou um celular e meio. [pause] Uma dívida de mil reais esquecida no rotativo... [pause] pode virar 2 mil. [pause] E as compras por impulso? [pause] 150 reais por mês, que somem sem você notar. [pause] Investidos, em 10 anos, seriam mais de 34 mil. [pause] Toda parcela longa é um aporte ao contrário. [pause] Em vez de os juros trabalharem pra você... [pause] você trabalha pros juros. [pause] [warmly] A boa notícia: dá pra virar o jogo. [pause] Quite primeiro as dívidas mais caras. [pause] Antes de parcelar, pergunte: quanto custa no total? [pause] E comece a investir, mesmo que seja pouco. [pause] Porque o melhor dia pra começar foi ontem. [pause] O segundo melhor é hoje. [pause] Siga o perfil para mais conteúdos como este.",
+  "beats": [
+    {
+      "fala": "Os juros compostos podem trabalhar pra você...",
+      "titulo": "JUROS COMPOSTOS",
+      "sub": "TRABALHANDO PRA VOCÊ"
+    },
+    {
+      "fala": "ou contra você.",
+      "titulo": "OU CONTRA VOCÊ"
+    },
+    {
+      "fala": "É a mesma matemática, dos dois lados.",
+      "titulo": "A MESMA MATEMÁTICA",
+      "sub": "DOS DOIS LADOS"
+    },
+    {
+      "fala": "Funciona assim: juros sobre juros.",
+      "titulo": "JUROS SOBRE JUROS"
+    },
+    {
+      "fala": "O que rende hoje passa a render amanhã.",
+      "titulo": "O QUE RENDE HOJE",
+      "sub": "RENDE AMANHÃ"
+    },
+    {
+      "fala": "Como uma bola de neve, só que do lado bom.",
+      "titulo": "BOLA DE NEVE",
+      "sub": "DO LADO BOM"
+    },
+    {
+      "fala": "Imagine guardar 200 reais por mês.",
+      "titulo": "GUARDE R$ 200 POR MÊS"
+    },
+    {
+      "fala": "Rendendo 1% ao mês, como exemplo.",
+      "titulo": "RENDENDO 1% AO MÊS",
+      "sub": "EXEMPLO ILUSTRATIVO"
+    },
+    {
+      "fala": "Em 10 anos, você colocou 24 mil.",
+      "titulo": "EM 10 ANOS",
+      "sub": "VOCÊ COLOCOU R$ 24.000"
+    },
+    {
+      "fala": "Mas tem 46 mil.",
+      "titulo": "MAS TEM R$ 46.000"
+    },
+    {
+      "fala": "Os juros fizeram quase metade do trabalho.",
+      "titulo": "OS JUROS FIZERAM",
+      "sub": "QUASE METADE DO TRABALHO"
+    },
+    {
+      "fala": "E em 20 anos?",
+      "titulo": "E EM 20 ANOS?"
+    },
+    {
+      "fala": "Você colocou 48 mil...",
+      "titulo": "VOCÊ COLOCOU R$ 48.000"
+    },
+    {
+      "fala": "e tem quase 200 mil.",
+      "titulo": "E TEM QUASE R$ 200.000"
+    },
+    {
+      "fala": "O tempo é o ingrediente secreto.",
+      "titulo": "O TEMPO",
+      "sub": "É O INGREDIENTE SECRETO"
+    },
+    {
+      "fala": "Agora, o lado escuro.",
+      "titulo": "AGORA, O LADO ESCURO"
+    },
+    {
+      "fala": "Os juros compostos ao contrário.",
+      "titulo": "JUROS COMPOSTOS",
+      "sub": "AO CONTRÁRIO"
+    },
+    {
+      "fala": "Um celular de 2 mil reais, em 24 parcelas, com juros de 4% ao mês.",
+      "titulo": "CELULAR DE R$ 2.000",
+      "sub": "24X COM JUROS DE 4% AO MÊS"
+    },
+    {
+      "fala": "Vira mais de 3.100 reais.",
+      "titulo": "VIRA R$ 3.148"
+    },
+    {
+      "fala": "Você pagou um celular e meio.",
+      "titulo": "VOCÊ PAGOU 1,5 CELULAR"
+    },
+    {
+      "fala": "Uma dívida de mil reais esquecida no rotativo...",
+      "titulo": "R$ 1.000 NO ROTATIVO"
+    },
+    {
+      "fala": "pode virar 2 mil.",
+      "titulo": "PODE VIRAR R$ 2.000"
+    },
+    {
+      "fala": "E as compras por impulso?",
+      "titulo": "E AS COMPRAS POR IMPULSO?"
+    },
+    {
+      "fala": "150 reais por mês, que somem sem você notar.",
+      "titulo": "R$ 150 POR MÊS",
+      "sub": "QUE SOMEM SEM VOCÊ NOTAR"
+    },
+    {
+      "fala": "Investidos, em 10 anos, seriam mais de 34 mil.",
+      "titulo": "INVESTIDOS: R$ 34.506",
+      "sub": "EM 10 ANOS"
+    },
+    {
+      "fala": "Toda parcela longa é um aporte ao contrário.",
+      "titulo": "PARCELA LONGA",
+      "sub": "= APORTE AO CONTRÁRIO"
+    },
+    {
+      "fala": "Em vez de os juros trabalharem pra você...",
+      "titulo": "EM VEZ DE OS JUROS",
+      "sub": "TRABALHAREM PRA VOCÊ"
+    },
+    {
+      "fala": "você trabalha pros juros.",
+      "titulo": "VOCÊ TRABALHA PROS JUROS"
+    },
+    {
+      "fala": "A boa notícia: dá pra virar o jogo.",
+      "titulo": "DÁ PRA VIRAR O JOGO"
+    },
+    {
+      "fala": "Quite primeiro as dívidas mais caras.",
+      "titulo": "1. QUITE AS DÍVIDAS",
+      "sub": "MAIS CARAS PRIMEIRO"
+    },
+    {
+      "fala": "Antes de parcelar, pergunte: quanto custa no total?",
+      "titulo": "2. ANTES DE PARCELAR",
+      "sub": "QUANTO CUSTA NO TOTAL?"
+    },
+    {
+      "fala": "E comece a investir, mesmo que seja pouco.",
+      "titulo": "3. COMECE A INVESTIR",
+      "sub": "MESMO QUE SEJA POUCO"
+    },
+    {
+      "fala": "Porque o melhor dia pra começar foi ontem.",
+      "titulo": "O MELHOR DIA PRA COMEÇAR",
+      "sub": "FOI ONTEM"
+    },
+    {
+      "fala": "O segundo melhor é hoje.",
+      "titulo": "O SEGUNDO MELHOR",
+      "sub": "É HOJE"
+    },
+    {
+      "fala": "Siga o perfil para mais conteúdos como este.",
+      "titulo": "SIGA O PERFIL",
+      "sub": "PARA MAIS CONTEÚDOS ASSIM"
+    }
+  ]
+}
