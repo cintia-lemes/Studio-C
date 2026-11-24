@@ -1,0 +1,170 @@
+{
+  "titulo": "E se você ganhasse R$ 1,5 milhão hoje?",
+  "voz": {
+    "provedor": "ElevenLabs",
+    "voice_id": "pEyC748s9iJAXTk3NWuL",
+    "nome": "Cortez - Calmo & Grave",
+    "modelo": "eleven_v4"
+  },
+  "aviso": "EDUCATIVO · VALORES ILUSTRATIVOS · SEM INFLAÇÃO E IMPOSTOS",
+  "fala_completa": "[excited] Imagina abrir o app do banco agora... [pause] e ver 1 milhão e meio na sua conta. [pause] O que você faria primeiro? [pause] [serious] Calma. Essa resposta decide se esse dinheiro dura 2 anos... [pause] ou a vida inteira. [pause] Caminho um: gastar. [pause] [excited] Uma casa de 800 mil. [pause] Um carro de 250 mil. [pause] Uma viagem dos sonhos: 100 mil. [pause] Ajudar a família: 150 mil. [pause] E o resto vai em compras, festas e presentes. [pause] [serious] Pronto. O milhão e meio acabou. [pause] Mas as contas, não. [pause] IPTU, condomínio, IPVA, seguro, manutenção. [pause] Fácil, uns 5 mil reais por mês a mais. [pause] Você virou milionário de patrimônio... [pause] com o mesmo salário de antes. [pause] Agora, o caminho dois. [pause] Você não gasta o milhão. [pause] Você faz ele trabalhar. [pause] Investido a 0,8% ao mês, como exemplo... [pause] [excited] ele rende 12 mil reais por mês. [pause] Todo mês. Sem você trabalhar por isso. [pause] É como ganhar um segundo salário... [pause] que nunca pede demissão. [pause] E dá pra ter os dois. [pause] Separe 20% pros sonhos: 300 mil. [pause] E deixe o resto trabalhando. [pause] 1,2 milhão rendendo quase 10 mil por mês. [pause] Reinvista uma parte, pra vencer a inflação. [pause] E o seu milhão continua lá. [pause] [serious] A diferença entre os dois caminhos não é o valor. [pause] É o que você faz com ele. [pause] E isso vale pra mil reais, também. [pause] Comece a pensar como quem já tem o milhão. [pause] Siga o perfil para mais conteúdos como este.",
+  "beats": [
+    {
+      "fala": "Imagina abrir o app do banco agora...",
+      "titulo": "IMAGINE ABRIR",
+      "sub": "O APP DO BANCO AGORA"
+    },
+    {
+      "fala": "e ver 1 milhão e meio na sua conta.",
+      "titulo": "R$ 1.500.000,00",
+      "sub": "NA SUA CONTA"
+    },
+    {
+      "fala": "O que você faria primeiro?",
+      "titulo": "O QUE VOCÊ FARIA PRIMEIRO?"
+    },
+    {
+      "fala": "Calma. Essa resposta decide se esse dinheiro dura 2 anos...",
+      "titulo": "ESSE DINHEIRO PODE DURAR 2 ANOS"
+    },
+    {
+      "fala": "ou a vida inteira.",
+      "titulo": "OU A VIDA INTEIRA"
+    },
+    {
+      "fala": "Caminho um: gastar.",
+      "titulo": "CAMINHO 1: GASTAR"
+    },
+    {
+      "fala": "Uma casa de 800 mil.",
+      "titulo": "CASA: R$ 800 MIL"
+    },
+    {
+      "fala": "Um carro de 250 mil.",
+      "titulo": "CARRO: R$ 250 MIL"
+    },
+    {
+      "fala": "Uma viagem dos sonhos: 100 mil.",
+      "titulo": "VIAGEM: R$ 100 MIL"
+    },
+    {
+      "fala": "Ajudar a família: 150 mil.",
+      "titulo": "FAMÍLIA: R$ 150 MIL"
+    },
+    {
+      "fala": "E o resto vai em compras, festas e presentes.",
+      "titulo": "COMPRAS E FESTAS",
+      "sub": "R$ 200 MIL"
+    },
+    {
+      "fala": "Pronto. O milhão e meio acabou.",
+      "titulo": "ACABOU",
+      "sub": "R$ 0"
+    },
+    {
+      "fala": "Mas as contas, não.",
+      "titulo": "MAS AS CONTAS, NÃO"
+    },
+    {
+      "fala": "IPTU, condomínio, IPVA, seguro, manutenção.",
+      "titulo": "IPTU · CONDOMÍNIO · IPVA",
+      "sub": "SEGURO · MANUTENÇÃO"
+    },
+    {
+      "fala": "Fácil, uns 5 mil reais por mês a mais.",
+      "titulo": "+ R$ 5.000 POR MÊS"
+    },
+    {
+      "fala": "Você virou milionário de patrimônio...",
+      "titulo": "MILIONÁRIO DE PATRIMÔNIO"
+    },
+    {
+      "fala": "com o mesmo salário de antes.",
+      "titulo": "COM O MESMO SALÁRIO",
+      "sub": "DE ANTES"
+    },
+    {
+      "fala": "Agora, o caminho dois.",
+      "titulo": "CAMINHO 2"
+    },
+    {
+      "fala": "Você não gasta o milhão.",
+      "titulo": "VOCÊ NÃO GASTA O MILHÃO"
+    },
+    {
+      "fala": "Você faz ele trabalhar.",
+      "titulo": "VOCÊ FAZ ELE TRABALHAR"
+    },
+    {
+      "fala": "Investido a 0,8% ao mês, como exemplo...",
+      "titulo": "INVESTIDO A 0,8% AO MÊS",
+      "sub": "EXEMPLO ILUSTRATIVO"
+    },
+    {
+      "fala": "ele rende 12 mil reais por mês.",
+      "titulo": "RENDE R$ 12.000 POR MÊS"
+    },
+    {
+      "fala": "Todo mês. Sem você trabalhar por isso.",
+      "titulo": "TODO MÊS",
+      "sub": "SEM VOCÊ TRABALHAR POR ISSO"
+    },
+    {
+      "fala": "É como ganhar um segundo salário...",
+      "titulo": "UM SEGUNDO SALÁRIO"
+    },
+    {
+      "fala": "que nunca pede demissão.",
+      "titulo": "QUE NUNCA PEDE DEMISSÃO"
+    },
+    {
+      "fala": "E dá pra ter os dois.",
+      "titulo": "E DÁ PRA TER OS DOIS"
+    },
+    {
+      "fala": "Separe 20% pros sonhos: 300 mil.",
+      "titulo": "20% PROS SONHOS",
+      "sub": "R$ 300 MIL"
+    },
+    {
+      "fala": "E deixe o resto trabalhando.",
+      "titulo": "80% TRABALHANDO",
+      "sub": "R$ 1,2 MILHÃO"
+    },
+    {
+      "fala": "1,2 milhão rendendo quase 10 mil por mês.",
+      "titulo": "≈ R$ 9.600 POR MÊS"
+    },
+    {
+      "fala": "Reinvista uma parte, pra vencer a inflação.",
+      "titulo": "REINVISTA UMA PARTE",
+      "sub": "PRA VENCER A INFLAÇÃO"
+    },
+    {
+      "fala": "E o seu milhão continua lá.",
+      "titulo": "O MILHÃO CONTINUA LÁ"
+    },
+    {
+      "fala": "A diferença entre os dois caminhos não é o valor.",
+      "titulo": "A DIFERENÇA NÃO É O VALOR"
+    },
+    {
+      "fala": "É o que você faz com ele.",
+      "titulo": "É O QUE VOCÊ FAZ COM ELE"
+    },
+    {
+      "fala": "E isso vale pra mil reais, também.",
+      "titulo": "VALE PRA R$ 1.000 TAMBÉM"
+    },
+    {
+      "fala": "Comece a pensar como quem já tem o milhão.",
+      "titulo": "PENSE COMO QUEM",
+      "sub": "JÁ TEM O MILHÃO"
+    },
+    {
+      "fala": "Siga o perfil para mais conteúdos como este.",
+      "titulo": "SIGA O PERFIL",
+      "sub": "PARA MAIS CONTEÚDOS ASSIM"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "titulo": "Ego, disciplina e obsessão: o que separa quem fica rico",
+  "sem_musica": true,
+  "voz": {
+    "provedor": "ElevenLabs",
+    "voice_id": "pEyC748s9iJAXTk3NWuL",
+    "nome": "Cortez - Calmo & Grave",
+    "modelo": "eleven_v4"
+  },
+  "aviso": "",
+  "fala_completa": "[serious] Três coisas separam quem fica rico de quem só parece rico. [pause] Ego. Disciplina. Obsessão. [pause] Primeiro: o ego. [pause] O ego quer parecer rico agora. [pause] Carro financiado, roupa de marca, foto no restaurante caro. [pause] Tudo pra impressionar gente que nem lembra de você. [pause] Quem fica rico mata o ego cedo. [pause] Prefere ser rico a parecer rico. [pause] Segundo: disciplina. [pause] Motivação aparece um dia. [pause] Disciplina aparece todo dia. [pause] É investir quando ninguém está olhando. [pause] Mês bom, mês ruim, mês sem vontade... [pause] o aporte sai do mesmo jeito. [pause] Terceiro: obsessão. [pause] Não pelo dinheiro. [pause] Pelo processo. [pause] Aprender, melhorar, ganhar mais, gastar menos. E repetir. [pause] Enquanto a maioria procura atalho... [pause] o obcecado constrói o caminho. [pause] Junta os três, e acontece algo. [pause] Sem ego, você gasta menos. [pause] Com disciplina, você investe sempre. [pause] Com obsessão, você ganha cada vez mais. [pause] E o tempo multiplica tudo. [pause] Riqueza não é sorte. [pause] É caráter, repetido todos os dias. [pause] Siga o perfil para mais conteúdos como este.",
+  "beats": [
+    {
+      "fala": "Três coisas separam quem fica rico de quem só parece rico.",
+      "titulo": "3 COISAS SEPARAM",
+      "sub": "QUEM FICA RICO DE QUEM PARECE RICO"
+    },
+    {
+      "fala": "Ego. Disciplina. Obsessão.",
+      "titulo": "EGO, DISCIPLINA, OBSESSÃO"
+    },
+    {
+      "fala": "Primeiro: o ego.",
+      "titulo": "1. EGO"
+    },
+    {
+      "fala": "O ego quer parecer rico agora.",
+      "titulo": "O EGO QUER PARECER RICO",
+      "sub": "AGORA"
+    },
+    {
+      "fala": "Carro financiado, roupa de marca, foto no restaurante caro.",
+      "titulo": "CARRO FINANCIADO · MARCA",
+      "sub": "FOTO NO RESTAURANTE CARO"
+    },
+    {
+      "fala": "Tudo pra impressionar gente que nem lembra de você.",
+      "titulo": "PRA IMPRESSIONAR QUEM",
+      "sub": "NEM LEMBRA DE VOCÊ"
+    },
+    {
+      "fala": "Quem fica rico mata o ego cedo.",
+      "titulo": "MATE O EGO CEDO"
+    },
+    {
+      "fala": "Prefere ser rico a parecer rico.",
+      "titulo": "SER RICO > PARECER RICO"
+    },
+    {
+      "fala": "Segundo: disciplina.",
+      "titulo": "2. DISCIPLINA"
+    },
+    {
+      "fala": "Motivação aparece um dia.",
+      "titulo": "MOTIVAÇÃO: UM DIA"
+    },
+    {
+      "fala": "Disciplina aparece todo dia.",
+      "titulo": "DISCIPLINA: TODO DIA"
+    },
+    {
+      "fala": "É investir quando ninguém está olhando.",
+      "titulo": "INVESTIR QUANDO",
+      "sub": "NINGUÉM ESTÁ OLHANDO"
+    },
+    {
+      "fala": "Mês bom, mês ruim, mês sem vontade...",
+      "titulo": "MÊS BOM · MÊS RUIM",
+      "sub": "MÊS SEM VONTADE"
+    },
+    {
+      "fala": "o aporte sai do mesmo jeito.",
+      "titulo": "O APORTE SAI",
+      "sub": "DO MESMO JEITO"
+    },
+    {
+      "fala": "Terceiro: obsessão.",
+      "titulo": "3. OBSESSÃO"
+    },
+    {
+      "fala": "Não pelo dinheiro.",
+      "titulo": "NÃO PELO DINHEIRO"
+    },
+    {
+      "fala": "Pelo processo.",
+      "titulo": "PELO PROCESSO"
+    },
+    {
+      "fala": "Aprender, melhorar, ganhar mais, gastar menos. E repetir.",
+      "titulo": "APRENDER · MELHORAR",
+      "sub": "GANHAR MAIS · GASTAR MENOS · REPETIR"
+    },
+    {
+      "fala": "Enquanto a maioria procura atalho...",
+      "titulo": "A MAIORIA PROCURA ATALHO"
+    },
+    {
+      "fala": "o obcecado constrói o caminho.",
+      "titulo": "O OBCECADO",
+      "sub": "CONSTRÓI O CAMINHO"
+    },
+    {
+      "fala": "Junta os três, e acontece algo.",
+      "titulo": "JUNTE OS TRÊS"
+    },
+    {
+      "fala": "Sem ego, você gasta menos.",
+      "titulo": "SEM EGO",
+      "sub": "VOCÊ GASTA MENOS"
+    },
+    {
+      "fala": "Com disciplina, você investe sempre.",
+      "titulo": "COM DISCIPLINA",
+      "sub": "VOCÊ INVESTE SEMPRE"
+    },
+    {
+      "fala": "Com obsessão, você ganha cada vez mais.",
+      "titulo": "COM OBSESSÃO",
+      "sub": "VOCÊ GANHA CADA VEZ MAIS"
+    },
+    {
+      "fala": "E o tempo multiplica tudo.",
+      "titulo": "O TEMPO MULTIPLICA TUDO"
+    },
+    {
+      "fala": "Riqueza não é sorte.",
+      "titulo": "RIQUEZA NÃO É SORTE"
+    },
+    {
+      "fala": "É caráter, repetido todos os dias.",
+      "titulo": "É CARÁTER",
+      "sub": "REPETIDO TODOS OS DIAS"
+    },
+    {
+      "fala": "Siga o perfil para mais conteúdos como este.",
+      "titulo": "SIGA O PERFIL",
+      "sub": "PARA MAIS CONTEÚDOS ASSIM"
+    }
+  ]
+}
