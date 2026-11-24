@@ -102,7 +102,7 @@ window.buildVideo = function (roteiro) {
       label(ctx, 'R$ 48 MIL', ox + w - 60, oy - h * 48000 / max - 40, T.ap(12, 0.4, 1.0) * 0.8);
       const ex = curve(u => [ox + u * w, oy - h * fv(200, 0.01, 240 * u + 1e-9) / max], 80);
       stroke(ctx, ex, { p: T.lin(13, 1.3, 0.1), width: 8, dot: true, glowK: 1.3 });
-      text(ctx, 'R$ ' + money(lerp(48000, 197851, easeOut(T.lin(13, 1.3, 0.1)))), ox + w - 160, oy - h - 40, { size: 56, alpha: T.ap(13, 0.3), glowK: 1 });
+      text(ctx, 'R$ ' + money(fv(200, 0.01, 240 * T.lin(13, 1.3, 0.1) + 1e-9)), ox + w - 160, oy - h - 40, { size: 56, alpha: T.ap(13, 0.3), glowK: 1 });
       clock(ctx, 350, 820, 0.8, T.t * 3, T.ap(14, 0.4));
     }
   });
@@ -178,7 +178,7 @@ window.buildVideo = function (roteiro) {
         stroke(ctx, [[ox, oy - h - 20], [ox, oy], [ox + w, oy]], { width: 3, alpha: 0.6, glowK: 0.2 });
         const c = curve(u => [ox + u * w, oy - h * fv(150, 0.01, 120 * u + 1e-9) / 34506], 60);
         stroke(ctx, c, { p: T.lin(24, 1.2, 0.2), width: 6, dash: [14, 12], dot: true, glowK: 0.8 });
-        text(ctx, 'R$ ' + money(lerp(0, 34506, easeOut(T.lin(24, 1.2, 0.2)))), CX, 740, { size: 80, glowK: 1 });
+        text(ctx, 'R$ ' + money(fv(150, 0.01, 120 * T.lin(24, 1.2, 0.2) + 1e-9)), CX, 740, { size: 80, glowK: 1 });
         label(ctx, 'O QUE PODERIA TER RENDIDO', CX, 820, 0.8);
         label(ctx, '10 ANOS', ox + w - 50, oy + 40, 0.6, { glowK: 0, size: 20 });
       });
