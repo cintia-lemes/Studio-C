@@ -19,3 +19,9 @@ gerados 100% por código: roteiro → narração com IA (ElevenLabs) → animaç
 
 Regras de estilo: 1 ideia por frase, algo muda na tela a cada 1,5–3 s, só branco/cinza,
 títulos no topo (funcionam como legenda), aviso "conteúdo educativo" em vídeos de investimento.
+
+## Música de fundo
+Coloque um `trilha.mp3` na pasta do vídeo (ex.: gerado com ElevenLabs Music, instrumental).
+O render mistura automaticamente: trilha em loop, volume baixo (`--music-vol 0.22`), abaixando
+sozinha quando a voz fala (sidechain), com fade de entrada e saída.
+Para só trocar/ajustar a música sem renderizar de novo: `node video/engine/render.cjs <pasta> --audio-only [--music-vol 0.18]`

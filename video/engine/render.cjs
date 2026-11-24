@@ -30,7 +30,36 @@ const grab = (page, t, type = 'jpeg') => page.evaluate(([t, type]) => {
   return document.getElementById('c').toDataURL('image/' + type, 0.95).split(',')[1];
 }, [t, type]);
 
+// Junta vídeo + narração (+ trilha.mp3 opcional, em loop, abaixando sob a voz)
+function mixAudio(videoIn) {
+  const out = path.join(outDir, 'video.mp4');
+  const tmp = path.join(outDir, 'tmp_mix.mp4');
+  const trilha = path.join(dir, 'trilha.mp3');
+  const D = (timings.duration + TAIL).toFixed(2);
+  const vol = parseFloat(opt('--music-vol') || '0.22');
+  const a = ['-y', '-v', 'error', '-i', videoIn, '-i', path.join(dir, 'narracao.mp3')];
+  if (fs.existsSync(trilha)) {
+    a.push('-stream_loop', '-1', '-i', trilha, '-filter_complex',
+      `[1:a]apad,asplit[v1][v2];` +
+      `[2:a]atrim=0:${D},volume=${vol},afade=t=in:d=1.5,afade=t=out:st=${(D - 2.5).toFixed(2)}:d=2.5[m];` +
+      `[m][v2]sidechaincompress=threshold=0.03:ratio=5:attack=30:release=500[md];` +
+      `[v1][md]amix=inputs=2:normalize=0:duration=first,atrim=0:${D},loudnorm=I=-14:TP=-1.5:LRA=11[a]`,
+      '-map', '0:v', '-map', '[a]');
+  } else {
+    a.push("-af", "apad,loudnorm=I=-14:TP=-1.5:LRA=11", "-map", "0:v", "-map", "1:a");
+  }
+  a.push('-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart', tmp);
+  execFileSync('ffmpeg', a);
+  fs.renameSync(tmp, out);
+  console.log('Áudio: narração' + (fs.existsSync(trilha) ? ' + trilha (vol ' + vol + ')' : ''));
+}
+
 (async () => {
+  if (args.includes('--audio-only')) { // remixa o áudio sem renderizar os frames de novo
+    const src = path.join(outDir, 'sem_audio.mp4');
+    execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', path.join(outDir, 'video.mp4'), '-an', '-c', 'copy', src]);
+    mixAudio(src); fs.unlinkSync(src); return;
+  }
   const browser = await chromium.launch();
   const stills = opt('--stills');
   if (stills) {
@@ -64,9 +93,10 @@ const grab = (page, t, type = 'jpeg') => page.evaluate(([t, type]) => {
   await browser.close();
   const list = path.join(outDir, 'parts.txt');
   fs.writeFileSync(list, parts.map(p => `file '${p}'`).join('\n'));
-  const out = path.join(outDir, 'video.mp4');
-  execFileSync('ffmpeg', ['-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', list, '-i', path.join(dir, 'narracao.mp3'),
-    '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-af', 'apad', '-shortest', '-movflags', '+faststart', out]);
+  const silent = path.join(outDir, 'sem_audio.mp4');
+  execFileSync('ffmpeg', ['-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', silent]);
+  mixAudio(silent);
+  fs.unlinkSync(silent);
   parts.forEach(p => fs.unlinkSync(p)); fs.unlinkSync(list);
-  console.log(`\nPronto: ${out} (${total} frames em ${((Date.now() - t0) / 1000).toFixed(0)}s)`);
+  console.log(`\nPronto: ${path.join(outDir, 'video.mp4')} (${total} frames em ${((Date.now() - t0) / 1000).toFixed(0)}s)`);
 })();
