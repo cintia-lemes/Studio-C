@@ -326,7 +326,7 @@ S.add(Rays(x=const(XJ), y=const(-150), r=190, n=7, prog=Track(0, (CLICK, 0, lin)
 
 def mix(root):
     mix_voice(f"{root}/video_04.mp4", [(os.path.join(HERE, "assets", "voz04", f), t) for f, t in VOZ],
-              f"{root}/guidelight_lei3_oculte_intencoes_9x16.mp4")
+              f"{root}/guidelight_lei3_oculte_intencoes_9x16.mp4", voice_vol=1.8)
 
 
 if __name__ == "__main__":
