@@ -673,3 +673,23 @@ class Scene:
         with wave.open(path, "wb") as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
             w.writeframes((buf * 32767).astype(np.int16).tobytes())
+
+
+def mix_voice(video, clips, out, sfx_vol=0.45, voice_vol=1.0):
+    """Junta a narração (lista de (arquivo, início_em_s)) ao vídeo, com os efeitos mais baixos."""
+    cmd = ["ffmpeg", "-y", "-v", "error", "-i", video]
+    for f, _ in clips:
+        cmd += ["-i", f]
+    parts = [f"[0:a]volume={sfx_vol}[sfx]"]
+    labels = ["[sfx]"]
+    for i, (_, t) in enumerate(clips, start=1):
+        ms = int(t * 1000)
+        parts.append(f"[{i}:a]aresample=44100,volume={voice_vol},adelay={ms}|{ms}[v{i}]")
+        labels.append(f"[v{i}]")
+    parts.append("".join(labels) + f"amix=inputs={len(labels)}:normalize=0:duration=first,"
+                 "alimiter=limit=0.95[a]")
+    cmd += ["-filter_complex", ";".join(parts), "-map", "0:v", "-map", "[a]",
+            "-c:v", "libx264", "-crf", "22", "-preset", "slow", "-c:a", "aac", "-b:a", "192k",
+            "-movflags", "+faststart", out]
+    subprocess.run(cmd, check=True)
+    print("ok ->", out)

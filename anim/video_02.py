@@ -181,8 +181,8 @@ S.add(Pill(x=const(9180), y=const(-175), text="O DINHEIRO VEM ATÉ VOCÊ", color
 # ======================================================================
 S.add(Pill(x=const(11000), y=const(-190), text="3 ATIVOS", size=17, s=appear(33.0), a=life(33.0, 40.7)), 33.0)
 for i, (name, res, t0) in enumerate([("CONHECIMENTO", "VIRA PRODUTO", 33.3),
-                                      ("AUDIÊNCIA", "VIRA CLIENTE", 34.8),
-                                      ("INVESTIMENTO", "VIRA RENDA", 36.3)]):
+                                      ("AUDIÊNCIA", "VIRA CLIENTE", 35.5),
+                                      ("INVESTIMENTO", "VIRA RENDA", 37.75)]):
     x = 10640 + i * 360
     S.add(Box(x=const(x), y=const(-70), w=230, h=110, label=name, size=21, s=appear(t0),
               a=life(t0, 40.7)), t0, "thud")
@@ -250,6 +250,12 @@ S.add(Rays(x=const(X9), y=const(-90), r=122, n=5, prog=Track(0, (CLICK, 0, lin),
            color=GOLD, a=life(CLICK, 60.4), float_amp=0))
 
 
+# Narração (ElevenLabs, voz "Jarnathan", id c6SfcYrb2t09NHXiT80T, modelo eleven_v4):
+# (arquivo, segundo em que começa no vídeo)
+VOZ = [("s1.mp3", 0.3), ("s2.mp3", 8.0), ("s3.mp3", 13.95), ("s4.mp3", 20.75), ("s5.mp3", 24.6),
+       ("s6.mp3", 33.2), ("s7.mp3", 41.4), ("s8.mp3", 48.3), ("s9.mp3", 55.5)]
+
+
 if __name__ == "__main__":
     root = os.path.join(HERE, "..", "out")
     if "--stills" in sys.argv:
@@ -259,3 +265,5 @@ if __name__ == "__main__":
         print("stills ok")
     else:
         S.render(f"{root}/video_02.mp4")
+        mix_voice(f"{root}/video_02.mp4", [(os.path.join(HERE, "assets", "voz02", f), t) for f, t in VOZ],
+                  f"{root}/guidelight_pare_de_correr_16x9.mp4")
