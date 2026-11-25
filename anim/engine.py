@@ -589,17 +589,22 @@ class Scene:
         L = np.asarray(layer, dtype=np.float32)
         G = np.asarray(layer.filter(ImageFilter.GaussianBlur(9 * k)), dtype=np.float32)
         out = bg + L + G * self.glow
-        # whip pan: borrão horizontal proporcional à velocidade da câmera
-        v = abs(self.cam_x(t + 1 / self.fps) - self.cam_x(t)) * self.zoom(t)
-        if v > 30:
-            n = int(min(140, v * 1.6) * k)
+        # whip pan: borrão na direção do movimento da câmera (derivada central, ignora cortes secos)
+        eps = 0.004
+        vx = abs(self.cam_x(t + eps) - self.cam_x(t - eps)) / (2 * eps) / self.fps * self.zoom(t)
+        vy = abs(self.cam_y(t + eps) - self.cam_y(t - eps)) / (2 * eps) / self.fps * self.zoom(t)
+        if vx > 30:
+            n = max(2, int(min(140, vx * 1.6) * k))
             cs = np.cumsum(np.pad(out, ((0, 0), (n, 0), (0, 0)), mode="edge"), axis=1)
             out = (cs[:, n:] - cs[:, :-n]) / n
-            # listras claras de velocidade
             rng = np.random.default_rng(int(t * 1000))
             for _ in range(10):
                 y = rng.integers(0, self.H)
                 out[y:y + rng.integers(2, 9)] += rng.uniform(20, 70)
+        if vy > 30:
+            n = max(2, int(min(140, vy * 1.2) * k))
+            cs = np.cumsum(np.pad(out, ((n, 0), (0, 0), (0, 0)), mode="edge"), axis=0)
+            out = (cs[n:] - cs[:-n]) / n
         inv = self.invert(t)
         if inv > 0:
             out = np.clip(out, 0, 255)
