@@ -1,7 +1,8 @@
 """
 Vídeo 03: "Por que a Black Friday cai junto com o 13º"  (9:16, 1080×1920, ≈66 s)
 Página: Guidelight. Roteiro: docs/roteiros/video_03_black_friday_13.md
-Narração: ElevenLabs, voz "Jarnathan" (c6SfcYrb2t09NHXiT80T), eleven_v4, em anim/assets/voz03/
+Narração: ElevenLabs, voz "Letícia – Gentle, Pleasant & Warm" (CcElPA8NBrawbunFs7rh), eleven_v4, em anim/assets/voz03/
+(versão anterior com a voz Jarnathan em anim/assets/voz03_jarnathan/)
 
 Rodar:  python3 anim/video_03.py --stills   (prévia)
         python3 anim/video_03.py            -> out/guidelight_black_friday_13_9x16.mp4
@@ -24,8 +25,8 @@ PILL = 19  # pílulas um pouco maiores para celular
 
 # Início de cada fala (s) — escolhidos a partir da duração real dos áudios
 VOZ = [("s01.mp3", 0.2), ("s02.mp3", 3.8), ("s03.mp3", 7.7), ("s04.mp3", 11.9), ("s05.mp3", 17.1),
-       ("s06.mp3", 23.3), ("s07.mp3", 29.0), ("s08.mp3", 34.9), ("s09.mp3", 41.0), ("s10.mp3", 47.1),
-       ("s11.mp3", 53.5), ("s12.mp3", 61.5)]
+       ("s06.mp3", 23.4), ("s07.mp3", 29.0), ("s08.mp3", 35.0), ("s09.mp3", 41.0), ("s10.mp3", 47.1),
+       ("s11.mp3", 53.5), ("s12.mp3", 61.65)]
 
 
 def clamp01(x):
@@ -439,6 +440,11 @@ S.add(Rays(x=const(X12), y=const(-150), r=190, n=7, prog=Track(0, (CLICK, 0, lin
            color=GOLD, a=life(CLICK, 66.0), float_amp=0))
 
 
+def mix(root):
+    mix_voice(f"{root}/video_03.mp4", [(os.path.join(HERE, "assets", "voz03", f), t) for f, t in VOZ],
+              f"{root}/guidelight_black_friday_13_9x16.mp4")
+
+
 if __name__ == "__main__":
     root = os.path.join(HERE, "..", "out")
     if "--stills" in sys.argv:
@@ -446,7 +452,8 @@ if __name__ == "__main__":
         for t in [2.9, 6.6, 10.5, 15.9, 21.9, 27.6, 33.8, 40.0, 46.4, 52.0, 59.5, 64.5]:
             S.still(t, f"{root}/stills03/t{t:05.1f}.png")
         print("stills ok")
+    elif "--mix" in sys.argv:          # só refaz a mixagem da voz (sem renderizar de novo)
+        mix(root)
     else:
         S.render(f"{root}/video_03.mp4")
-        mix_voice(f"{root}/video_03.mp4", [(os.path.join(HERE, "assets", "voz03", f), t) for f, t in VOZ],
-                  f"{root}/guidelight_black_friday_13_9x16.mp4")
+        mix(root)

@@ -5,7 +5,7 @@ Estúdio de vídeos em animação 2D minimalista (pictogramas brancos em fundo p
 - `anim/engine.py`: motor de animação em Python (Pillow + numpy + ffmpeg), com pop, contador, câmera, whip pan, glow e efeitos sonoros.
 - `anim/video_01.py`: vídeo 01, "1% por dia", com o roteiro de narração no topo do arquivo.
 - `anim/video_02.py` (narração ElevenLabs em `anim/assets/voz02/`, mixada automaticamente): vídeo 02 da Guidelight, "Pare de correr atrás do dinheiro" (61 s, 1920×1080, com cores de destaque, inversão preto/branco e cartão final com a foto de perfil em `anim/assets/guidelight.jpg`).
-- `anim/video_03.py`: vídeo 03 da Guidelight, "Black Friday × 13º" (9:16, 1080×1920, narração em `anim/assets/voz03/`; roteiro em `docs/roteiros/`).
+- `anim/video_03.py`: vídeo 03 da Guidelight, "Black Friday × 13º" (9:16, 1080×1920, narração com a voz Letícia em `anim/assets/voz03/`, versão Jarnathan em `voz03_jarnathan/`; `--mix` refaz só a voz; roteiro em `docs/roteiros/`).
 
 ```bash
 pip install pillow numpy      # ffmpeg precisa estar instalado
