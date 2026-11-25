@@ -1,7 +1,8 @@
 """
 Vídeo 04: Lei 3, "Oculte suas intenções" (As 48 Leis do Poder)  (9:16, 1080×1920, ≈48 s)
 Página: Guidelight. Roteiro: docs/roteiros/video_04_lei3_oculte_intencoes.md
-Narração: ElevenLabs, voz "Letícia" (CcElPA8NBrawbunFs7rh), eleven_v4, em anim/assets/voz04/
+Narração: ElevenLabs, voz "Nassif – Documentary, History & Thriller" (acdKA5HckGxoxxvy40dA), eleven_v4,
+em anim/assets/voz04/ (1ª versão, mais curta, com a voz Letícia: anim/assets/voz04_leticia_v1/ e histórico do git)
 
 Rodar:  python3 anim/video_04.py --stills | --mix | (sem nada: render + mix)
 """
@@ -17,12 +18,13 @@ RED = (255, 82, 82)
 GREEN = (64, 222, 140)
 GREY = (150, 150, 150)
 
-S = Scene(W=1080, H=1920, fps=30, duration=48.0, base_w=720)
+S = Scene(W=1080, H=1920, fps=30, duration=71.5, base_w=720)
 PILL = 19
 GY = 250  # chão das cenas com bonecos
 
-VOZ = [("s01.mp3", 0.1), ("s02.mp3", 4.4), ("s03.mp3", 11.2), ("s04.mp3", 14.9), ("s05.mp3", 19.4),
-       ("s06.mp3", 24.4), ("s07.mp3", 29.2), ("s08.mp3", 34.0), ("s09.mp3", 38.8), ("s10.mp3", 43.8)]
+VOZ = [("s01.mp3", 0.1), ("s02.mp3", 5.9), ("s03.mp3", 13.0), ("s04.mp3", 17.6), ("s05.mp3", 25.7),
+       ("s06.mp3", 33.9), ("s07.mp3", 39.0), ("s08.mp3", 43.8), ("s09.mp3", 48.4), ("s10.mp3", 53.0),
+       ("s11.mp3", 59.8), ("s12.mp3", 64.0), ("s13.mp3", 66.8)]
 
 
 def clamp01(x):
@@ -106,6 +108,36 @@ class Flag(El):
         c.d.polygon([(X, Y - h), (X + h * .55, Y - h * .82 + wave), (X, Y - h * .62)], fill=col)
 
 
+@dataclass
+class Gauge(El):
+    """Barra horizontal de 0 a 100% com rótulo e porcentagem."""
+    w: float = 460
+    h: float = 34
+    label: str = ""
+    value: Callable = const(1)
+    col_fn: Callable = None
+    float_amp: float = 0
+
+    def paint(self, c, X, Y, k, a):
+        v = clamp01(self.value(c.t))
+        w, h = self.w * k, self.h * k
+        colr = self.col_fn(v) if self.col_fn else self.color
+        col = tuple(int(q * a) for q in colr)
+        x0 = X - w / 2
+        c.d.rounded_rectangle([x0, Y - h / 2, x0 + w, Y + h / 2], radius=h / 2, outline=self.c(a * .7),
+                              width=max(1, int(2.6 * k)), fill=(0, 0, 0))
+        if v > 0.01:
+            c.d.rounded_rectangle([x0 + 5 * k, Y - h / 2 + 5 * k, x0 + 5 * k + (w - 10 * k) * v, Y + h / 2 - 5 * k],
+                                  radius=(h - 10 * k) / 2, fill=col)
+        c.d.text((x0, Y - h / 2 - 22 * k), self.label, font=font("Black", 19 * k), fill=self.c(a), anchor="lm")
+        c.d.text((x0 + w, Y - h / 2 - 22 * k), f"{int(round(v * 100))}%", font=font("Black", 26 * k), fill=col,
+                 anchor="rm")
+
+
+def green_to_red(v):
+    return tuple(int(r + (g - r) * v) for r, g in zip(RED, GREEN))
+
+
 def P(x, y, text, t, t_out=None, color=(255, 255, 255), size=PILL, dim_at=None, dim_to=.3):
     return S.add(Pill(x=const(x), y=const(y), text=text, size=size, color=color, s=appear(t),
                       a=life(t, t_out, dim_at=dim_at, dim_to=dim_to)), t)
@@ -117,140 +149,179 @@ def T(x, y, text, t, t_out=None, size=60, color=(255, 255, 255), weight="Black",
 
 
 # ---------------------------------------------------------------- câmera
-XA, XB, XC, XD, XE, XF, XG, XH = 0, 1500, 3000, 4500, 6000, 7500, 9000, 11000
-S.cam_x = Track(XA, (cut(4.3), XA, lin), (cut(4.3) + .001, XB, lin),
-                (cut(11.05), XB, lin), (cut(11.05) + .001, XC, lin),
-                (14.6, XC, lin), (14.95, XD, in_out_cubic),
-                (cut(19.25), XD, lin), (cut(19.25) + .001, XE, lin),
-                (24.05, XE, lin), (24.4, XF, in_out_cubic),
-                (cut(38.6), XF, lin), (cut(38.6) + .001, XG, lin),
-                (43.3, XG, lin), (43.65, XH, in_out_cubic))
+XA, XB, XC, XD, XE, XF, XG, XH, XI, XJ = 0, 1500, 3000, 4500, 6000, 7500, 9000, 10500, 12000, 13500
+S.cam_x = Track(XA, (cut(5.75), XA, lin), (cut(5.75) + .001, XB, lin),
+                (cut(12.85), XB, lin), (cut(12.85) + .001, XC, lin),
+                (17.3, XC, lin), (17.65, XD, in_out_cubic),
+                (cut(25.55), XD, lin), (cut(25.55) + .001, XE, lin),
+                (33.6, XE, lin), (33.95, XF, in_out_cubic),
+                (cut(38.85), XF, lin), (cut(38.85) + .001, XG, lin),
+                (52.7, XG, lin), (53.05, XH, in_out_cubic),
+                (cut(59.55), XH, lin), (cut(59.55) + .001, XI, lin),
+                (66.3, XI, lin), (66.65, XJ, in_out_cubic))
 S.cam_y = const(0)
-S.zoom = Track(1, (cut(38.6), 1, lin), (cut(38.6) + .001, 1, lin), (43.3, 1.05, lin), (43.31, 1, lin))
+S.zoom = Track(1, (cut(59.55), 1, lin), (cut(59.55) + .001, 1, lin), (66.3, 1.06, lin), (66.31, 1, lin))
 S.ground_a = const(0)
-S.invert = Track(0, (cut(4.3), 0, lin), (cut(4.3) + .1, 1, out_cubic), (10.95, 1, lin), (11.05, 0, in_cubic))
-S.sfx += [(14.55, "whoosh"), (24.0, "whoosh"), (43.25, "whoosh"), (4.3, "thud"), (11.05, "thud"),
-          (19.25, "thud"), (38.6, "thud")]
+S.invert = Track(0, (cut(5.75), 0, lin), (cut(5.75) + .1, 1, out_cubic), (12.75, 1, lin), (12.85, 0, in_cubic))
+S.sfx += [(17.25, "whoosh"), (33.55, "whoosh"), (52.65, "whoosh"), (66.25, "whoosh")] + \
+         [(t, "thud") for t in (5.75, 12.85, 25.55, 38.85, 59.55)]
 
-# ---------------------------------------------------------------- A: gancho (0–4.3)
-# "Você contou sua ideia... e outro levou o crédito."
-T(XA, -440, "SUA IDEIA", .05, 4.25, size=80)
-S.add(Dashed(x=const(XA), y=const(GY), a=life(0, 4.25)))
-S.add(Person(x=const(XA - 170), y=const(GY), h=150, s=appear(.05, .25),
-             a=Track(0, (.05, 0, lin), (.2, 1, lin), (2.9, 1, lin), (3.3, .25, out_cubic), (4.1, .25, lin),
-                     (4.25, 0, lin))), .05)
-S.add(Person(x=const(XA + 170), y=const(GY), h=150, s=appear(.25, .25), a=life(.25, 4.25), phase=1), .25)
-bx = Track(XA - 170, (2.3, XA - 170, lin), (2.95, XA + 170, in_out_cubic))
-by = Track(-10, (2.3, -10, lin), (2.6, -140, out_cubic), (2.95, -10, in_cubic))
-S.add(Bulb(x=bx, y=by, r=36, color=GOLD, s=appear(.35, .35), a=life(.35, 4.25)), .35)
-S.add(Rays(x=bx, y=by, r=56, prog=Track(0, (.5, 0, lin), (.8, 1, out_back)), color=GOLD, a=life(.5, 4.25),
-           float_amp=0))
-S.sfx.append((2.3, "whoosh"))
-P(XA + 170, -140 - 50, "CRÉDITO", 3.05, 4.25, color=GOLD)
-S.add(XIcon(x=const(XA - 170), y=const(-60), r=26, color=RED, s=appear(3.3), a=life(3.3, 4.25)), 3.3, "thud")
+# ---------------------------------------------------------------- A: gancho (0.1–5.6)
+# "Por que contar seus planos antes de acontecerem... reduz suas chances de realizá-los?"
+T(XA, -470, "SEUS PLANOS", .05, 5.7, size=76)
+S.add(Dashed(x=const(XA), y=const(GY), a=life(0, 5.7)))
+S.add(Person(x=const(XA - 190), y=const(GY), h=150, s=appear(.1, .25), a=life(.1, 5.7)), .1)
+P(XA - 150, 50, "MEU PLANO É…", .6, 5.7, size=22)
+for i, (dx, t0) in enumerate([(90, 1.0), (190, 1.2), (290, 1.4)]):
+    S.add(Person(x=const(XA + dx), y=const(GY), h=110, color=GREY, s=appear(t0), a=life(t0, 5.7), phase=i), t0)
+chance = Track(0, (.9, 0, lin), (1.7, 1, out_cubic), (3.3, 1, lin), (4.8, .18, in_out_cubic))
+S.add(Gauge(x=const(XA), y=const(-250), w=520, label="SUAS CHANCES", value=chance, col_fn=green_to_red,
+            s=appear(.8, .3, s0=.8), a=life(.8, 5.7)), .8)
+S.sfx += [(3.4 + i * .12, "tick") for i in range(10)]
+S.add(WarnIcon(x=const(XA), y=const(-360), r=28, color=RED, s=appear(4.7), a=life(4.7, 5.7)), 4.7, "thud")
 
-# ---------------------------------------------------------------- B: a lei (inversão) (4.4–11.0)
-# "A Lei 3 do livro As 48 Leis do Poder é clara: oculte suas intenções."
-T(XB, -120, "LEI 3", 4.55, 10.95, size=210, dur=.45)
-S.add(BookIcon(x=const(XB), y=const(-420), w=130, s=appear(5.4), a=life(5.4, 10.95)), 5.4)
-P(XB, -320, "AS 48 LEIS DO PODER", 5.6, 10.95, size=21)
-T(XB, 150, "OCULTE SUAS", 8.85, 10.95, size=66)
-T(XB, 240, "INTENÇÕES", 9.15, 10.95, size=82)
-S.sfx += [(8.85, "thud")]
+# ---------------------------------------------------------------- B: a lei (inversão) (5.9–12.75)
+# "A resposta está na Lei 3 do livro As 48 Leis do Poder: oculte suas intenções."
+P(XB, -500, "A RESPOSTA", 6.0, 12.75, size=21)
+T(XB, -150, "LEI 3", 7.2, 12.75, size=210, dur=.45)
+S.add(BookIcon(x=const(XB), y=const(-400), w=120, s=appear(8.3), a=life(8.3, 12.75)), 8.3)
+P(XB, 20, "AS 48 LEIS DO PODER", 8.6, 12.75, size=21)
+T(XB, 170, "OCULTE SUAS", 10.6, 12.75, size=66)
+T(XB, 260, "INTENÇÕES", 10.9, 12.75, size=82)
+S.sfx += [(7.2, "thud"), (10.6, "thud")]
 
-# ---------------------------------------------------------------- C: lógica 1 (11.2–14.6)
-# "Quem sabe o seu próximo passo consegue te bloquear."
-S.add(Dashed(x=const(XC), y=const(GY), a=life(11.1, 14.6)))
-S.add(Person(x=const(XC - 240), y=const(GY), h=150, s=appear(11.15), a=life(11.15, 14.6)), 11.15)
-S.add(Flag(x=const(XC + 250), y=const(GY), h=170, color=GOLD, s=appear(11.3), a=life(11.3, 14.6)), 11.3)
+# ---------------------------------------------------------------- C: 1 (13.0–17.3)
+# "Primeiro: quem sabe o seu próximo passo consegue te bloquear."
+T(XC, -470, "1", 13.0, 17.3, size=120, color=GOLD)
+S.add(Dashed(x=const(XC), y=const(GY), a=life(13.0, 17.3)))
+S.add(Person(x=const(XC - 240), y=const(GY), h=150, s=appear(13.1), a=life(13.1, 17.3)), 13.1)
+S.add(Flag(x=const(XC + 250), y=const(GY), h=170, color=GOLD, s=appear(13.3), a=life(13.3, 17.3)), 13.3)
 S.add(Path(x=const(XC - 180), y=const(120), pts=[(0, 0), (370, 0)], arrow=True, width=3.4, color=GOLD,
-           prog=Track(0, (11.5, 0, lin), (12.2, 1, in_out_cubic)), a=life(11.5, 14.6, dim_at=12.9, dim_to=.25)), 11.5)
-P(XC, -330, "PRÓXIMO PASSO", 11.6, 14.6, color=GOLD, size=22)
-S.add(Person(x=const(XC + 20), y=Track(-800, (12.6, -800, lin), (12.95, GY, out_back)), h=160, color=RED,
-             a=life(12.6, 14.6), float_amp=0), 12.95, "thud")
-S.add(XIcon(x=const(XC + 20), y=const(-110), r=28, color=RED, s=appear(13.2), a=life(13.2, 14.6)), 13.2)
-P(XC + 20, -200, "BLOQUEIO", 13.3, 14.6, color=RED)
+           prog=Track(0, (14.1, 0, lin), (14.9, 1, in_out_cubic)), a=life(14.1, 17.3, dim_at=16.2, dim_to=.25)), 14.1)
+P(XC, -300, "PRÓXIMO PASSO", 14.3, 17.3, color=GOLD, size=22)
+S.add(Person(x=const(XC + 20), y=Track(-800, (15.9, -800, lin), (16.25, GY, out_back)), h=160, color=RED,
+             a=life(15.9, 17.3), float_amp=0), 16.25, "thud")
+S.add(XIcon(x=const(XC + 20), y=const(-110), r=28, color=RED, s=appear(16.5), a=life(16.5, 17.3)), 16.5)
+P(XC + 20, -200, "BLOQUEIO", 16.6, 17.3, color=RED)
 
-# ---------------------------------------------------------------- D: lógica 2 (14.9–19.1)
-# "Quando você anuncia o que quer, os outros têm tempo de se preparar."
-S.add(Dashed(x=const(XD), y=const(GY), a=life(14.9, 19.2)))
-S.add(Person(x=const(XD), y=const(GY), h=150, s=appear(15.0), a=life(15.0, 19.2)), 15.0)
-P(XD, 50, "EU VOU…", 15.3, 19.2, size=24)
-for i, (dx, t0) in enumerate([(-240, 16.85), (240, 17.05), (-120, 17.25), (120, 17.4)]):
-    S.add(Person(x=const(XD + dx), y=const(GY), h=115, color=GREY, s=appear(t0), a=life(t0, 19.2), phase=i), t0)
-S.add(Clock(x=const(XD), y=const(-260), r=50, speed=14, color=RED, s=appear(17.6), a=life(17.6, 19.2)), 17.6)
-P(XD, -150, "TEMPO PRA SE PREPARAR", 17.9, 19.2, color=RED)
+# ---------------------------------------------------------------- D: 2 (17.6–25.4)
+# "Segundo: quando você anuncia o que quer, os outros têm tempo de se preparar. E nem todo mundo torce por você."
+T(XD, -470, "2", 17.6, 25.5, size=120, color=GOLD)
+S.add(Dashed(x=const(XD), y=const(GY), a=life(17.5, 25.5)))
+S.add(Person(x=const(XD), y=const(GY), h=150, s=appear(17.7), a=life(17.7, 25.5)), 17.7)
+P(XD, 50, "EU VOU…", 18.6, 25.5, size=24)
+others = [(-250, 20.5), (250, 20.7), (-130, 20.9), (130, 21.05)]
+for i, (dx, t0) in enumerate(others):
+    S.add(Person(x=const(XD + dx), y=const(GY), h=115, color=GREY, s=appear(t0),
+                 a=life(t0, 25.5, dim_at=23.1 if i in (0, 3) else None, dim_to=0), phase=i), t0)
+for i in (0, 3):
+    dx = others[i][0]
+    S.add(Person(x=const(XD + dx), y=const(GY), h=115, color=RED, a=life(23.1, 25.5), phase=i))
+S.add(Clock(x=const(XD), y=const(-250), r=50, speed=14, color=GOLD, s=appear(21.0),
+            a=life(21.0, 25.5, dim_at=23.1, dim_to=.25)), 21.0)
+P(XD, -150, "TEMPO PRA SE PREPARAR", 21.3, 25.5, color=GOLD, dim_at=23.1, dim_to=.25)
+P(XD, 400, "NEM TODO MUNDO TORCE POR VOCÊ", 23.2, 25.5, color=RED, size=21)
+S.sfx += [(23.15, "thud")]
 
-# ---------------------------------------------------------------- E: lógica 3 (19.4–24.0)
-# "Por isso, quem é estratégico fala pouco e mostra resultado."
-S.add(Dashed(x=const(XE), y=const(GY), a=life(19.3, 24.0)))
-S.add(Person(x=const(XE - 210), y=const(GY), h=150, s=appear(19.35), a=life(19.35, 24.0)), 19.35)
-P(XE - 210, 50, "ESTRATÉGICO", 20.3, 24.0, color=GOLD)
-T(XE, -400, "FALA POUCO", 21.7, 24.0, size=62, dim_at=22.6, dim_to=.35)
-T(XE, -300, "MOSTRA RESULTADO", 22.6, 24.0, size=52, color=GREEN)
-S.add(Bars(x=const(XE + 130), y=const(GY), t0=22.7, color=GREEN, a=life(22.7, 24.0)))
-S.sfx += [(22.7 + i * .18, "pop") for i in range(4)]
+# ---------------------------------------------------------------- E: 3 (25.7–33.6)
+# "Terceiro: tem estudo mostrando que, quando você anuncia uma meta, já sente que avançou... e se esforça menos."
+T(XE, -470, "3", 25.7, 33.6, size=120, color=GOLD)
+P(XE, -360, "ESTUDO", 26.9, 33.6, size=22)
+S.add(Dashed(x=const(XE), y=const(GY + 60), a=life(25.7, 33.6)))
+S.add(Person(x=const(XE), y=const(GY + 60), h=150, s=appear(25.8), a=life(25.8, 33.6)), 25.8)
+P(XE, 110, "MINHA META É…", 28.4, 33.6, size=22)
+S.add(Gauge(x=const(XE), y=const(-220), w=520, label="SENSAÇÃO DE AVANÇO",
+            value=Track(.1, (30.4, .1, lin), (31.4, .8, out_cubic)), color=GOLD,
+            s=appear(29.8, .3, s0=.8), a=life(29.8, 33.6)), 29.8)
+S.add(Gauge(x=const(XE), y=const(-90), w=520, label="ESFORÇO",
+            value=Track(.8, (32.2, .8, lin), (33.2, .3, in_out_cubic)), col_fn=green_to_red,
+            s=appear(30.0, .3, s0=.8), a=life(30.0, 33.6)), 30.0)
+S.sfx += [(32.2 + i * .1, "tick") for i in range(9)]
 
-# ---------------------------------------------------------------- F: exemplo (24.4–38.2)
-# "Exemplo: na entrevista, perguntam sua pretensão salarial."
-# "Não fale um número primeiro. Pergunte qual é a faixa da vaga."
-# "Quem revela o próprio limite... negocia contra si mesmo."
-FO = 38.55
-P(XF, -460, "EXEMPLO", 24.45, FO, size=22)
-T(XF, -390, "ENTREVISTA", 25.5, FO, size=58)
-S.add(Dashed(x=const(XF), y=const(GY), a=life(24.4, FO)))
-cand_a = Track(0, (24.5, 0, lin), (24.7, 1, out_cubic), (36.4, 1, lin), (36.9, .3, out_cubic), (FO, .3, lin),
-               (FO + .15, 0, lin))
-S.add(Person(x=const(XF - 220), y=const(GY), h=150, s=appear(24.5), a=cand_a), 24.5)
-S.add(Person(x=const(XF + 220), y=const(GY), h=150, color=(200, 200, 200), s=appear(24.7), a=life(24.7, FO),
-             phase=1), 24.7)
-S.add(Path(x=const(XF - 110), y=const(GY - 70), pts=[(0, 0), (220, 0)], width=3.4, color=GREY,
-           prog=Track(0, (24.8, 0, lin), (25.1, 1, out_cubic)), a=life(24.8, FO)))
-S.add(Text(x=const(XF - 220), y=const(GY + 45), text="VOCÊ", size=20, weight="Black", s=appear(25.0),
-           a=life(25.0, FO)))
-S.add(Text(x=const(XF + 220), y=const(GY + 45), text="RECRUTADOR", size=20, weight="Black", color=(200, 200, 200),
-           s=appear(25.1), a=life(25.1, FO)))
-P(XF + 120, 30, "PRETENSÃO SALARIAL?", 26.3, 31.1, dim_at=29.3)
-# não fale um número primeiro
-T(XF - 150, -150, "R$ ???", 29.4, 31.2, size=48, color=GOLD)
-S.add(XIcon(x=const(XF - 150), y=const(-235), r=30, color=RED, s=appear(30.1, .3), a=life(30.1, 31.2)), 30.1, "thud")
-# pergunte a faixa
-P(XF - 150, 30, "QUAL A FAIXA?", 31.3, FO, color=GREEN, size=21, dim_at=34.0)
-S.add(CheckIcon(x=const(XF + 15), y=const(30), r=20, color=GREEN, s=appear(31.9), a=life(31.9, FO, dim_at=34.0)), 31.9)
-T(XF + 140, -170, "R$ 6–8 MIL", 32.4, FO, size=46, color=GOLD)
-P(XF + 140, -110, "FAIXA DA VAGA", 32.6, FO, color=GOLD, size=16)
-# revelar o limite
-T(XF - 185, -170, "R$ 5 MIL", 34.6, FO, size=44, color=RED)
-S.add(WarnIcon(x=const(XF - 185), y=const(-250), r=24, color=RED, s=appear(34.8), a=life(34.8, FO)), 34.8)
-S.add(Path(x=const(XF + 30), y=const(-170), pts=[(0, 0), (-120, 0)], arrow=True, width=3, color=RED,
-           prog=Track(0, (35.2, 0, lin), (35.6, 1, out_cubic)), a=life(35.2, FO)), 35.2)
-P(XF, 380, "NEGOCIA CONTRA SI MESMO", 36.4, FO, color=RED, size=22)
+# ---------------------------------------------------------------- F: estratégico (33.9–38.7)
+# "Por isso, quem é estratégico fala pouco... e mostra resultado."
+S.add(Dashed(x=const(XF), y=const(GY), a=life(33.8, 38.85)))
+S.add(Person(x=const(XF - 210), y=const(GY), h=150, s=appear(33.9), a=life(33.9, 38.85)), 33.9)
+P(XF - 210, 50, "ESTRATÉGICO", 34.8, 38.85, color=GOLD)
+T(XF, -400, "FALA POUCO", 36.35, 38.85, size=62, dim_at=37.25, dim_to=.35)
+T(XF, -300, "MOSTRA RESULTADO", 37.25, 38.85, size=52, color=GREEN)
+S.add(Bars(x=const(XF + 130), y=const(GY), t0=37.3, color=GREEN, a=life(37.3, 38.85)))
+S.sfx += [(37.3 + i * .18, "pop") for i in range(4)]
 
-# ---------------------------------------------------------------- G: impacto (38.8–43.3)
-# "Não esconde quem você é. Esconde o seu próximo passo."
-T(XG, -170, "NÃO ESCONDE", 38.85, 43.3, size=64, dim_at=40.95, dim_to=.3)
-T(XG, -85, "QUEM VOCÊ É.", 39.25, 43.3, size=64, dim_at=40.95, dim_to=.3)
-T(XG, 95, "ESCONDE O SEU", 41.0, 43.3, size=62, color=GOLD, dur=.4)
-T(XG, 180, "PRÓXIMO PASSO.", 41.35, 43.3, size=68, color=GOLD, dur=.4)
-S.sfx += [(41.0, "thud")]
+# ---------------------------------------------------------------- G: entrevista (39.0–52.7)
+GO = 52.85
+P(XG, -480, "NA PRÁTICA", 39.05, GO, size=22)
+T(XG, -405, "ENTREVISTA", 40.3, GO, size=58)
+S.add(Dashed(x=const(XG), y=const(GY), a=life(39.0, GO)))
+cand_a = Track(0, (39.1, 0, lin), (39.3, 1, out_cubic), (50.7, 1, lin), (51.2, .3, out_cubic), (GO, .3, lin),
+               (GO + .15, 0, lin))
+S.add(Person(x=const(XG - 220), y=const(GY), h=150, s=appear(39.1), a=cand_a), 39.1)
+S.add(Person(x=const(XG + 220), y=const(GY), h=150, color=(200, 200, 200), s=appear(39.3), a=life(39.3, GO),
+             phase=1), 39.3)
+S.add(Path(x=const(XG - 110), y=const(GY - 70), pts=[(0, 0), (220, 0)], width=3.4, color=GREY,
+           prog=Track(0, (39.4, 0, lin), (39.7, 1, out_cubic)), a=life(39.4, GO)))
+S.add(Text(x=const(XG - 220), y=const(GY + 45), text="VOCÊ", size=20, weight="Black", s=appear(39.5),
+           a=life(39.5, GO)))
+S.add(Text(x=const(XG + 220), y=const(GY + 45), text="RECRUTADOR", size=20, weight="Black", color=(200, 200, 200),
+           s=appear(39.6), a=life(39.6, GO)))
+P(XG + 120, 30, "PRETENSÃO SALARIAL?", 41.9, 45.8, dim_at=43.9)
+T(XG - 150, -150, "R$ ???", 43.9, 45.8, size=48, color=GOLD)
+S.add(XIcon(x=const(XG - 150), y=const(-235), r=30, color=RED, s=appear(44.7, .3), a=life(44.7, 45.8)), 44.7, "thud")
+P(XG - 150, 30, "QUAL A FAIXA?", 45.95, GO, color=GREEN, size=21, dim_at=48.4)
+S.add(CheckIcon(x=const(XG + 15), y=const(30), r=20, color=GREEN, s=appear(46.5), a=life(46.5, GO, dim_at=48.4)), 46.5)
+T(XG + 140, -170, "R$ 6–8 MIL", 46.9, GO, size=46, color=GOLD)
+P(XG + 140, -110, "FAIXA DA VAGA", 47.1, GO, color=GOLD, size=16)
+T(XG - 185, -170, "R$ 5 MIL", 48.5, GO, size=44, color=RED)
+S.add(WarnIcon(x=const(XG - 185), y=const(-250), r=24, color=RED, s=appear(48.7), a=life(48.7, GO)), 48.7)
+S.add(Path(x=const(XG + 30), y=const(-170), pts=[(0, 0), (-120, 0)], arrow=True, width=3, color=RED,
+           prog=Track(0, (49.2, 0, lin), (49.6, 1, out_cubic)), a=life(49.2, GO)), 49.2)
+P(XG, 380, "NEGOCIA CONTRA SI MESMO", 50.75, GO, color=RED, size=22)
 
-# ---------------------------------------------------------------- H: final (43.6–48)
-P(XH, -390, "SIGA A PÁGINA", 44.4, 47.6, size=22)
-S.add(Avatar(x=const(XH), y=const(-150), r=150, path=os.path.join(HERE, "assets", "guidelight.jpg"), ring=GOLD,
-             s=appear(43.6, .45), a=life(43.6, 47.6)), 43.6, "thud")
-T(XH, 80, "GUIDELIGHT", 44.0, 47.6, size=78)
-CLICK = 46.2
-S.add(Button(x=const(XH), y=const(210), w=300, h=78, text=lambda t: "SEGUINDO" if t >= CLICK else "SEGUIR",
+# ---------------------------------------------------------------- H: promoção (53.0–59.3)
+# "No trabalho, vale o mesmo. Vai pedir uma promoção? Primeiro entrega. Depois conversa."
+HO = 59.55
+T(XH, -470, "NO TRABALHO", 53.05, HO, size=66)
+S.add(Dashed(x=const(XH), y=const(GY), a=life(53.0, HO)))
+S.add(Person(x=const(XH - 200), y=const(GY), h=150, s=appear(53.1), a=life(53.1, HO)), 53.1)
+P(XH - 200, 50, "PROMOÇÃO?", 54.9, HO, color=GOLD, size=22)
+S.add(Box(x=const(XH + 120), y=const(-260), w=290, h=96, label="1. ENTREGA", size=28, color=GREEN,
+          s=appear(56.5), a=life(56.5, HO)), 56.5, "thud")
+S.add(CheckIcon(x=const(XH + 265), y=const(-308), r=22, color=GREEN, s=appear(56.9), a=life(56.9, HO)), 56.9)
+S.add(Path(x=const(XH + 120), y=const(-205), pts=[(0, 0), (0, 80)], arrow=True, width=3.2,
+           prog=Track(0, (57.5, 0, lin), (57.85, 1, out_cubic)), a=life(57.5, HO)), 57.5)
+S.add(Box(x=const(XH + 120), y=const(-60), w=290, h=96, label="2. CONVERSA", size=28,
+          s=appear(57.9), a=life(57.9, HO)), 57.9, "thud")
+
+# ---------------------------------------------------------------- I: impacto (59.8–66.3)
+# "Não esconde quem você é. Esconde o seu próximo passo." / "E deixa o resultado fazer barulho."
+T(XI, -270, "NÃO ESCONDE", 59.85, 63.9, size=62, dim_at=61.8, dim_to=.3)
+T(XI, -190, "QUEM VOCÊ É.", 60.3, 63.9, size=62, dim_at=61.8, dim_to=.3)
+T(XI, -40, "ESCONDE O SEU", 61.8, 63.9, size=62, color=GOLD, dur=.4)
+T(XI, 50, "PRÓXIMO PASSO.", 62.2, 63.9, size=68, color=GOLD, dur=.4)
+S.sfx += [(61.8, "thud")]
+T(XI, -80, "DEIXA O RESULTADO", 64.05, 66.3, size=58)
+T(XI, 30, "FAZER BARULHO.", 65.0, 66.3, size=76, color=GOLD, dur=.3)
+S.add(Rays(x=const(XI), y=const(-30), r=270, n=9, prog=Track(0, (65.0, 0, lin), (65.3, 1, out_back)),
+           color=GOLD, a=life(65.0, 66.3), float_amp=0))
+S.sfx += [(65.0, "thud")]
+
+# ---------------------------------------------------------------- J: final (66.6–71.5)
+P(XJ, -390, "SIGA A PÁGINA", 67.5, 71.2, size=22)
+S.add(Avatar(x=const(XJ), y=const(-150), r=150, path=os.path.join(HERE, "assets", "guidelight.jpg"), ring=GOLD,
+             s=appear(66.7, .45), a=life(66.7, 71.2)), 66.7, "thud")
+T(XJ, 80, "GUIDELIGHT", 67.1, 71.2, size=78)
+CLICK = 69.4
+S.add(Button(x=const(XJ), y=const(210), w=300, h=78, text=lambda t: "SEGUINDO" if t >= CLICK else "SEGUIR",
              fill=lerp_color((255, 255, 255), GOLD, CLICK, CLICK + .15),
-             s=Track(0, (44.8, 0, lin), (45.15, 1, out_back), (CLICK - .05, 1, lin), (CLICK + .05, .9, lin),
-                     (CLICK + .35, 1, out_back)), a=life(44.8, 47.6)), 44.8)
-S.add(Cursor(x=Track(XH + 300, (45.3, XH + 300, lin), (46.05, XH + 30, in_out_cubic)),
-             y=Track(560, (45.3, 560, lin), (46.05, 215, in_out_cubic)), size=44,
+             s=Track(0, (67.9, 0, lin), (68.25, 1, out_back), (CLICK - .05, 1, lin), (CLICK + .05, .9, lin),
+                     (CLICK + .35, 1, out_back)), a=life(67.9, 71.2)), 67.9)
+S.add(Cursor(x=Track(XJ + 300, (68.5, XJ + 300, lin), (69.25, XJ + 30, in_out_cubic)),
+             y=Track(560, (68.5, 560, lin), (69.25, 215, in_out_cubic)), size=44,
              s=Track(1, (CLICK - .05, 1, lin), (CLICK + .05, .85, lin), (CLICK + .25, 1, out_cubic)),
-             a=life(45.3, 47.3)), CLICK)
+             a=life(68.5, 70.9)), CLICK)
 S.sfx.append((CLICK + .02, "tick"))
-S.add(Rays(x=const(XH), y=const(-150), r=190, n=7, prog=Track(0, (CLICK, 0, lin), (CLICK + .3, 1, out_back)),
-           color=GOLD, a=life(CLICK, 47.6), float_amp=0))
+S.add(Rays(x=const(XJ), y=const(-150), r=190, n=7, prog=Track(0, (CLICK, 0, lin), (CLICK + .3, 1, out_back)),
+           color=GOLD, a=life(CLICK, 71.2), float_amp=0))
 
 
 def mix(root):
@@ -262,7 +333,9 @@ if __name__ == "__main__":
     root = os.path.join(HERE, "..", "out")
     if "--stills" in sys.argv:
         os.makedirs(f"{root}/stills04", exist_ok=True)
-        for t in [1.5, 3.8, 9.8, 13.9, 18.6, 23.6, 27.5, 30.6, 33.3, 37.5, 42.6, 46.6]:
+        for f in os.listdir(f"{root}/stills04"):
+            os.remove(f"{root}/stills04/{f}")
+        for t in [4.9, 11.8, 16.9, 24.5, 33.0, 38.3, 47.5, 52.0, 58.8, 63.5, 65.9, 70.0]:
             S.still(t, f"{root}/stills04/t{t:05.1f}.png")
         print("stills ok")
     elif "--mix" in sys.argv:
