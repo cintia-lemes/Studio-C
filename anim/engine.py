@@ -114,6 +114,10 @@ class El:
     a: Callable = const(1)      # opacidade/brilho 0..1
     float_amp: float = 2.0      # flutuação ociosa
     phase: float = 0.0
+    color: tuple = (255, 255, 255)  # cor de destaque (padrão: branco)
+
+    def c(self, a):
+        return tuple(int(v * a) for v in self.color)
 
     def state(self, t):
         a = self.a(t)
@@ -166,16 +170,56 @@ def life(t_in, t_out=None, dim_at=None, dim_to=.3, dur=.25):
 @dataclass
 class Person(El):
     h: float = 120  # altura total. Pés em y.
+    legs: bool = False           # versão com pernas/braços (para andar/correr)
+    run: Callable = const(0)     # 0 = parado, 1 = correndo
+    gait: float = 9.0            # velocidade da passada
 
     def paint(self, c, X, Y, k, a):
+        if self.legs:
+            return self._paint_legs(c, X, Y, k, a)
         h = self.h * k
-        col = gray(a)
+        col = self.c(a)
         r = h * 0.17
         bw = h * 0.42
         body_top = Y - h * 0.62
         c.d.ellipse([X - r, Y - h, X + r, Y - h + 2 * r], fill=col)
         c.d.rounded_rectangle([X - bw / 2, body_top, X + bw / 2, Y], radius=bw / 2.2, fill=col,
                               corners=(True, True, False, False))
+
+
+    def _paint_legs(self, c, X, Y, k, a):
+        h = self.h * k
+        col = self.c(a)
+        run = max(0.0, min(1.0, self.run(c.t)))
+        ph = c.t * self.gait
+        bob = abs(math.sin(ph)) * h * .04 * run
+        lean = h * .07 * run
+        Y0 = Y - bob
+        hip = (X, Y0 - h * .40)
+        lw = max(2, int(h * .14))
+
+        def limb(p0, ang, L):
+            p1 = (p0[0] + math.sin(ang) * L, p0[1] + math.cos(ang) * L)
+            c.d.line([p0, p1], fill=col, width=lw)
+            for q in (p0, p1):
+                c.d.ellipse([q[0] - lw / 2, q[1] - lw / 2, q[0] + lw / 2, q[1] + lw / 2], fill=col)
+
+        sw = math.sin(ph) * .75 * run
+        limb(hip, sw, h * .38)
+        limb(hip, -sw, h * .38)
+        # tronco
+        tw = h * .30
+        top = (X + lean, Y0 - h * .74)
+        c.d.line([hip, top], fill=col, width=int(tw))
+        for q in (hip, top):
+            c.d.ellipse([q[0] - tw / 2, q[1] - tw / 2, q[0] + tw / 2, q[1] + tw / 2], fill=col)
+        # braços
+        sh = (X + lean * .9, Y0 - h * .66)
+        limb(sh, -sw * .9 + .15 * run, h * .27)
+        limb(sh, sw * .9 + .15 * run, h * .27)
+        r = h * .13
+        hx, hy = X + lean * 1.25, Y0 - h * .90
+        c.d.ellipse([hx - r, hy - r, hx + r, hy + r], fill=col)
 
 
 @dataclass
@@ -187,7 +231,7 @@ class Text(El):
 
     def paint(self, c, X, Y, k, a):
         txt = self.text(c.t) if callable(self.text) else self.text
-        c.d.text((X, Y), txt, font=font(self.weight, self.size * k), fill=gray(a), anchor="mm")
+        c.d.text((X, Y), txt, font=font(self.weight, self.size * k), fill=self.c(a), anchor="mm")
 
 
 @dataclass
@@ -203,7 +247,7 @@ class Pill(El):
         widths = [f.getlength(ch) for ch in self.text]
         tw = sum(widths) + sp * (len(self.text) - 1)
         ph, pw = self.size * k * 1.9, tw + self.size * k * 2.0
-        col = gray(a)
+        col = self.c(a)
         c.d.rounded_rectangle([X - pw / 2, Y - ph / 2, X + pw / 2, Y + ph / 2], radius=ph / 2,
                               fill=(0, 0, 0), outline=col, width=max(1, int(2.2 * k)))
         cx = X - tw / 2
@@ -222,7 +266,7 @@ class CheckIcon(El):
 
     def paint(self, c, X, Y, k, a):
         r = self.r * k
-        col = gray(a)
+        col = self.c(a)
         c.d.ellipse([X - r, Y - r, X + r, Y + r], outline=col, width=_sw(k))
         c.d.line([(X - r * .42, Y + r * .02), (X - r * .1, Y + r * .34), (X + r * .45, Y - r * .3)],
                  fill=col, width=_sw(k), joint="curve")
@@ -235,7 +279,7 @@ class XIcon(El):
 
     def paint(self, c, X, Y, k, a):
         r = self.r * k
-        col = gray(a)
+        col = self.c(a)
         c.d.ellipse([X - r, Y - r, X + r, Y + r], outline=col, width=_sw(k),
                     fill=(0, 0, 0) if self.filled else None)
         q = r * .4
@@ -249,7 +293,7 @@ class WarnIcon(El):
 
     def paint(self, c, X, Y, k, a):
         r = self.r * k
-        col = gray(a)
+        col = self.c(a)
         pts = [(X, Y - r), (X + r * 1.1, Y + r * .8), (X - r * 1.1, Y + r * .8)]
         c.d.polygon(pts, outline=col, width=_sw(k))
         c.d.line([(X, Y - r * .3), (X, Y + r * .25)], fill=col, width=_sw(k))
@@ -263,9 +307,9 @@ class CoinIcon(El):
 
     def paint(self, c, X, Y, k, a):
         r = self.r * k
-        col = gray(a)
+        col = self.c(a)
         c.d.ellipse([X - r, Y - r, X + r, Y + r], outline=col, width=_sw(k), fill=(0, 0, 0))
-        c.d.ellipse([X - r * .78, Y - r * .78, X + r * .78, Y + r * .78], outline=gray(a * .6), width=_sw(k, 1.6))
+        c.d.ellipse([X - r * .78, Y - r * .78, X + r * .78, Y + r * .78], outline=self.c(a * .6), width=_sw(k, 1.6))
         c.d.text((X, Y), "$", font=font("Bold", r * 1.05), fill=col, anchor="mm")
 
 
@@ -277,7 +321,7 @@ class CalendarIcon(El):
     def paint(self, c, X, Y, k, a):
         w = self.w * k
         h = w * 1.0
-        col = gray(a)
+        col = self.c(a)
         x0, y0 = X - w / 2, Y - h / 2
         c.d.rounded_rectangle([x0, y0, x0 + w, y0 + h], radius=w * .1, outline=col, width=_sw(k), fill=(0, 0, 0))
         c.d.line([(x0, y0 + h * .28), (x0 + w, y0 + h * .28)], fill=col, width=_sw(k))
@@ -293,7 +337,7 @@ class BookIcon(El):
     def paint(self, c, X, Y, k, a):
         w = self.w * k
         h = w * .62
-        col = gray(a)
+        col = self.c(a)
         sw = _sw(k)
         # duas páginas abertas
         c.d.polygon([(X, Y - h * .38), (X - w / 2, Y - h / 2), (X - w / 2, Y + h / 2), (X, Y + h * .38)],
@@ -302,8 +346,8 @@ class BookIcon(El):
                     outline=col, width=sw, fill=(0, 0, 0))
         for i in range(3):
             yy = Y - h * .18 + i * h * .18
-            c.d.line([(X - w * .38, yy - h * .03), (X - w * .1, yy)], fill=gray(a * .6), width=_sw(k, 2.4))
-            c.d.line([(X + w * .1, yy), (X + w * .38, yy - h * .03)], fill=gray(a * .6), width=_sw(k, 2.4))
+            c.d.line([(X - w * .38, yy - h * .03), (X - w * .1, yy)], fill=self.c(a * .6), width=_sw(k, 2.4))
+            c.d.line([(X + w * .1, yy), (X + w * .38, yy - h * .03)], fill=self.c(a * .6), width=_sw(k, 2.4))
 
 
 @dataclass
@@ -316,7 +360,7 @@ class Box(El):
 
     def paint(self, c, X, Y, k, a):
         w, h = self.w * k, self.h * k
-        col = gray(a)
+        col = self.c(a)
         c.d.rounded_rectangle([X - w / 2, Y - h / 2, X + w / 2, Y + h / 2], radius=8 * k, outline=col,
                               width=_sw(k), fill=(0, 0, 0))
         if self.label:
@@ -329,6 +373,8 @@ class ListBox(El):
     title: str = ""
     items: list = field(default_factory=list)  # [(texto, t_aparece, ok:bool)]
     w: float = 300
+    ok_color: tuple = (255, 255, 255)
+    bad_color: tuple = (255, 255, 255)
 
     def paint(self, c, X, Y, k, a):
         w = self.w * k
@@ -341,10 +387,10 @@ class ListBox(El):
             grow += out_cubic(min(1, max(0, (c.t - ti) / .25)))
         h = head + row * max(1, grow) + 14 * k
         x0, y0 = X - w / 2, Y - (head + row * 1.5) / 2
-        col = gray(a)
+        col = self.c(a)
         c.d.rounded_rectangle([x0, y0, x0 + w, y0 + h], radius=8 * k, outline=col, width=_sw(k), fill=(0, 0, 0))
-        c.d.line([(x0, y0 + head), (x0 + w, y0 + head)], fill=gray(a * .55), width=_sw(k, 2))
-        c.d.text((X, y0 + head / 2), self.title, font=font("Bold", 12 * k), fill=gray(a * .7), anchor="mm")
+        c.d.line([(x0, y0 + head), (x0 + w, y0 + head)], fill=self.c(a * .55), width=_sw(k, 2))
+        c.d.text((X, y0 + head / 2), self.title, font=font("Bold", 12 * k), fill=self.c(a * .7), anchor="mm")
         for i, (txt, ti, ok) in enumerate(self.items):
             p = (c.t - ti) / .3
             if p <= 0:
@@ -353,10 +399,10 @@ class ListBox(El):
             ia = a * out_cubic(p)
             yy = y0 + head + row * (i + .5) + 6 * k
             dx = (1 - out_cubic(p)) * -20 * k
-            c.d.text((x0 + 20 * k + dx, yy), txt, font=font("ExtraBold", 19 * k), fill=gray(ia), anchor="lm")
+            c.d.text((x0 + 20 * k + dx, yy), txt, font=font("ExtraBold", 19 * k), fill=self.c(ia), anchor="lm")
             icon_s = out_back(p)
             Icon = CheckIcon if ok else XIcon
-            ic = Icon(r=12)
+            ic = Icon(r=12, color=self.ok_color if ok else self.bad_color)
             ic.paint(c, x0 + w - 30 * k, yy, k * icon_s, ia)
 
 
@@ -368,6 +414,7 @@ class Path(El):
     width: float = 3.5
     tip: El | None = None  # elemento que viaja na ponta
     float_amp: float = 0
+    arrow: bool = False
 
     def paint(self, c, X, Y, k, a):
         p = max(0, min(1, self.prog(c.t)))
@@ -386,7 +433,14 @@ class Path(El):
                 f = total / L
                 out.append((p0[0] + (p1[0] - p0[0]) * f, p0[1] + (p1[1] - p0[1]) * f))
             total -= L
-        c.d.line(out, fill=gray(a), width=_sw(k, self.width), joint="curve")
+        c.d.line(out, fill=self.c(a), width=_sw(k, self.width), joint="curve")
+        if self.arrow and len(out) >= 2:
+            (x0, y0), (x1, y1) = out[-2], out[-1]
+            ang = math.atan2(y1 - y0, x1 - x0)
+            L = 16 * k
+            for da in (2.6, -2.6):
+                c.d.line([(x1, y1), (x1 + math.cos(ang + da) * L, y1 + math.sin(ang + da) * L)],
+                         fill=self.c(a), width=_sw(k, self.width))
         if self.tip is not None:
             self.tip.paint(c, out[-1][0], out[-1][1], k * self.tip.s(c.t), a)
 
@@ -406,7 +460,73 @@ class Rays(El):
             r0 = self.r * k * wob
             r1 = r0 + 26 * k * p
             c.d.line([(X + math.cos(ang) * r0, Y + math.sin(ang) * r0),
-                      (X + math.cos(ang) * r1, Y + math.sin(ang) * r1)], fill=gray(a), width=_sw(k))
+                      (X + math.cos(ang) * r1, Y + math.sin(ang) * r1)], fill=self.c(a), width=_sw(k))
+
+
+@dataclass
+class Avatar(El):
+    """Foto redonda com anel (foto de perfil)."""
+    path: str = ""
+    r: float = 90
+    ring: tuple = (255, 255, 255)
+    _img: object = None
+
+    def paint(self, c, X, Y, k, a):
+        if self._img is None:
+            self._img = Image.open(self.path).convert("RGB")
+            w, h = self._img.size
+            m = min(w, h)
+            self._img = self._img.crop(((w - m) // 2, (h - m) // 2, (w + m) // 2, (h + m) // 2))
+        r = int(self.r * k)
+        if r < 2:
+            return
+        im = self._img.resize((2 * r, 2 * r), Image.LANCZOS)
+        mask = Image.new("L", (2 * r, 2 * r), 0)
+        ImageDraw.Draw(mask).ellipse([0, 0, 2 * r - 1, 2 * r - 1], fill=int(255 * a))
+        c.d._image.paste(im, (int(X - r), int(Y - r)), mask)
+        rw = _sw(k, 5)
+        col = tuple(int(v * a) for v in self.ring)
+        c.d.ellipse([X - r - rw, Y - r - rw, X + r + rw, Y + r + rw], outline=col, width=rw)
+
+
+@dataclass
+class Button(El):
+    """Botão colorido sólido (ex.: SEGUIR) com texto que pode mudar."""
+    text: str | Callable = ""
+    w: float = 220
+    h: float = 60
+    fill: Callable = const((255, 255, 255))
+    text_color: tuple = (0, 0, 0)
+    float_amp: float = 1.0
+
+    def paint(self, c, X, Y, k, a):
+        w, h = self.w * k, self.h * k
+        f = self.fill(c.t)
+        c.d.rounded_rectangle([X - w / 2, Y - h / 2, X + w / 2, Y + h / 2], radius=h / 2,
+                              fill=tuple(int(v * a) for v in f))
+        txt = self.text(c.t) if callable(self.text) else self.text
+        c.d.text((X, Y), txt, font=font("ExtraBold", h * .38),
+                 fill=tuple(int(v * a) for v in self.text_color), anchor="mm")
+
+
+@dataclass
+class Cursor(El):
+    """Mãozinha/seta de clique."""
+    size: float = 34
+    float_amp: float = 0
+
+    def paint(self, c, X, Y, k, a):
+        L = self.size * k
+        pts = [(X, Y), (X, Y + L), (X + L * .28, Y + L * .74), (X + L * .46, Y + L * 1.1),
+               (X + L * .6, Y + L * 1.03), (X + L * .43, Y + L * .68), (X + L * .78, Y + L * .68)]
+        c.d.polygon(pts, fill=self.c(a), outline=(0, 0, 0), width=_sw(k, 2))
+
+
+def lerp_color(c0, c1, t0, t1):
+    def f(t):
+        p = max(0, min(1, (t - t0) / max(1e-6, t1 - t0)))
+        return tuple(int(x + (y - x) * p) for x, y in zip(c0, c1))
+    return f
 
 
 # --------------------------------------------------------------------------
@@ -427,6 +547,8 @@ class Scene:
     ground_a: Callable = const(1)
     sfx: list = field(default_factory=list)  # [(t, 'pop'|'whoosh'|'tick'|'thud')]
     glow: float = 0.55
+    invert: Callable = const(0)   # 0..1 — inverte preto/branco (fundo branco)
+    base_w: int = 1280            # largura de referência das coordenadas de mundo
 
     def add(self, el, sfx_at=None, kind="pop"):
         self.els.append(el)
@@ -456,7 +578,8 @@ class Scene:
             x += dash + gap
 
     def frame(self, t, bg):
-        cam = (self.cam_x(t), self.cam_y(t), self.zoom(t))
+        k = self.W / self.base_w
+        cam = (self.cam_x(t), self.cam_y(t), self.zoom(t) * k)
         layer = Image.new("RGB", (self.W, self.H), (0, 0, 0))
         d = ImageDraw.Draw(layer)
         self._ground(d, t, cam)
@@ -464,12 +587,12 @@ class Scene:
         for el in self.els:
             el.draw(c)
         L = np.asarray(layer, dtype=np.float32)
-        G = np.asarray(layer.filter(ImageFilter.GaussianBlur(9)), dtype=np.float32)
+        G = np.asarray(layer.filter(ImageFilter.GaussianBlur(9 * k)), dtype=np.float32)
         out = bg + L + G * self.glow
         # whip pan: borrão horizontal proporcional à velocidade da câmera
-        v = abs(self.cam_x(t + 1 / self.fps) - self.cam_x(t)) * cam[2]
+        v = abs(self.cam_x(t + 1 / self.fps) - self.cam_x(t)) * self.zoom(t)
         if v > 30:
-            n = int(min(140, v * 1.6))
+            n = int(min(140, v * 1.6) * k)
             cs = np.cumsum(np.pad(out, ((0, 0), (n, 0), (0, 0)), mode="edge"), axis=1)
             out = (cs[:, n:] - cs[:, :-n]) / n
             # listras claras de velocidade
@@ -477,6 +600,10 @@ class Scene:
             for _ in range(10):
                 y = rng.integers(0, self.H)
                 out[y:y + rng.integers(2, 9)] += rng.uniform(20, 70)
+        inv = self.invert(t)
+        if inv > 0:
+            out = np.clip(out, 0, 255)
+            out = out * (1 - inv) + (255 - out) * inv
         # grão de filme bem leve
         out += np.random.default_rng(int(t * 997)).normal(0, 2.2, out.shape[:2])[..., None]
         return np.clip(out, 0, 255).astype(np.uint8)
