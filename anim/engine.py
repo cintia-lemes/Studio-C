@@ -593,7 +593,8 @@ class Scene:
         eps = 0.004
         vx = abs(self.cam_x(t + eps) - self.cam_x(t - eps)) / (2 * eps) / self.fps * self.zoom(t)
         vy = abs(self.cam_y(t + eps) - self.cam_y(t - eps)) / (2 * eps) / self.fps * self.zoom(t)
-        if vx > 30:
+        # saltos enormes de um quadro para o outro são cortes secos, não movimento: sem borrão
+        if 30 < vx < 600:
             n = max(2, int(min(140, vx * 1.6) * k))
             cs = np.cumsum(np.pad(out, ((0, 0), (n, 0), (0, 0)), mode="edge"), axis=1)
             out = (cs[:, n:] - cs[:, :-n]) / n
@@ -601,7 +602,7 @@ class Scene:
             for _ in range(10):
                 y = rng.integers(0, self.H)
                 out[y:y + rng.integers(2, 9)] += rng.uniform(20, 70)
-        if vy > 30:
+        if 30 < vy < 600:
             n = max(2, int(min(140, vy * 1.2) * k))
             cs = np.cumsum(np.pad(out, ((n, 0), (0, 0), (0, 0)), mode="edge"), axis=0)
             out = (cs[n:] - cs[:-n]) / n
