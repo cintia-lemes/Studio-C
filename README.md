@@ -9,6 +9,7 @@ Estúdio de vídeos em animação 2D minimalista (pictogramas brancos em fundo p
 - `anim/video_04.py`: vídeo 04 da Guidelight, "Lei 3: oculte suas intenções" (9:16, ~71 s, voz Nassif em `anim/assets/voz04/`; 1ª versão com a Letícia em `voz04_leticia_v1/`; roteiro em `docs/roteiros/`).
 - `anim/video_05.py`: vídeo 05 da Guidelight, "2027: imposto, SUS e posse" (9:16, ~89 s, voz Elvis em `anim/assets/voz05/`; roteiro e checagem de fatos em `docs/roteiros/`).
 - `anim/video_06.py`: vídeo 06 da Guidelight, "Não salva esse vídeo: o macete do algoritmo e o dinheiro fácil" (9:16, ~54 s, voz Elvis em `anim/assets/voz06/`; os 12 ganchos estão em `docs/roteiros/video_06_macete_algoritmo.md`).
+- `anim/video_07.py`: vídeo 07 da Guidelight, versão 2 do macete do algoritmo, "Você não é robô. É impaciente." (9:16, ~61 s, voz Elvis em `anim/assets/voz07/`).
 
 ```bash
 pip install pillow numpy      # ffmpeg precisa estar instalado
