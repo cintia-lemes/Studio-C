@@ -11,6 +11,7 @@ Estúdio de vídeos em animação 2D minimalista (pictogramas brancos em fundo p
 - `anim/video_06.py`: vídeo 06 da Guidelight, "Não salva esse vídeo: o macete do algoritmo e o dinheiro fácil" (9:16, ~54 s, voz Elvis em `anim/assets/voz06/`; os 12 ganchos estão em `docs/roteiros/video_06_macete_algoritmo.md`).
 - `anim/video_07.py`: vídeo 07 da Guidelight, versão 2 do macete do algoritmo, "Você não é robô. É impaciente." (9:16, ~61 s, voz Elvis em `anim/assets/voz07/`).
 - `anim/video_08.py`: vídeo 08 da Guidelight, "Parece loucura" sobre identidade e merecimento (9:16, ~63 s, voz Elvis em `anim/assets/voz08/`; ganchos e roteiro em `docs/roteiros/video_08_parece_loucura.md`).
+- `anim/video_09.py`: vídeo 09 da Guidelight, "Quanto tempo sua rotina aguenta de pé?" sobre reserva de emergência (9:16, ~59 s, voz Elvis em `anim/assets/voz09/`).
 
 ```bash
 pip install pillow numpy      # ffmpeg precisa estar instalado
